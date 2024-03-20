@@ -5,6 +5,7 @@ const app = express()
 const sequelize = require('./db')
 const bodyParser = require('body-parser')
 
+const router = require('./routes')
 const errorHandler = require('./middleware/errorHandling')
 
 app.use('static', express.static('public'))
@@ -12,6 +13,7 @@ app.use('static', express.static('public'))
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
+app.use('/api', router)
 app.use('/api', errorHandler)
 
 async function start() {
