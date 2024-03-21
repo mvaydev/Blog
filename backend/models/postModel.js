@@ -10,11 +10,6 @@ module.exports = sequelize.define('post', {
         allowNull: false,
     },
 
-    userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-
     title: {
         type: DataTypes.STRING(256),
         allowNull: false,

@@ -8,15 +8,5 @@ module.exports = sequelize.define('like', {
         primaryKey: true,
         unique: true,
         allowNull: false,
-    },
-
-    userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-
-    postId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
+    }
 })
