@@ -14,10 +14,10 @@ router.get('/login',
     userController.login
 )
 
-router.get('/verify/:id/:code',
+router.post('/verify/:id/:code',
     param('id').isInt(),
     param('code').isInt(),
-    userController.verify
+    userController.verifyEmail
 )
 
 router.delete('/:id', 
@@ -31,6 +31,7 @@ router.get('/:id',
 )
 
 router.post('/', 
+    body('name').notEmpty(),
     body('email').isEmail(), 
     body('password').isLength({
         min: 6,

@@ -1,5 +1,6 @@
 const { userModel } = require('../models')
 const userService = require('../services/userService')
+const mailService = require('../services/mailService')
 const { validationResult } = require('express-validator')
 const ApiError = require('../apiError')
 
@@ -41,23 +42,27 @@ module.exports = {
                 return next(ApiError.BadRequest('Validation errors'))
             }
 
-            await userService.registrate(req.body)
-            res.status(201).end()
+            const user = await userService.registrate(req.body)
+            const verificationCode = userService.generateCode()
+
+            mailService.sendVerificationMail(user.email, verificationCode)
+
+            res.status(201).json(user)
+
+            user.update({ verificationCode })
         } catch (e) {
             next(e)
         }
     },
 
-    async verify(req, res, next) {
+    async verifyEmail(req, res, next) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Validation errors'))
             }
 
-            const token = await userService.verify(req.params.id, req.params.code)
-
-            res.json(token)
+            await userService.verifyEmail(req.params.id, req.params.code)
         } catch(e) {
             next(e)
         }
@@ -66,14 +71,14 @@ module.exports = {
     async login(req, res, next) {
         try {
             const errors = validationResult(req);
-            if (!errors.isEmpty()) {
+            if (!errors.isEmpty())
                 return next(ApiError.BadRequest('Validation errors'))
-            }
 
-            const {email, password} = req.body
-            const user = await userService.login(email, password)
+            const { email, password } = req.body
 
-            res.json(user)
+            const token = await userService.login(email, password)
+
+            res.json(token)
         } catch(e) {
             next(e)
         }

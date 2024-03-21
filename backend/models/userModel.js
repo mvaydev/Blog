@@ -21,14 +21,8 @@ module.exports = sequelize.define('user', {
         allowNull: false,
     },
 
-    // avatar: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false,
-    //     defaultValue: '../public/default.jpg'
-    // },
-
     verificationCode: {
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING(6)
     },
 
     isVerify: {

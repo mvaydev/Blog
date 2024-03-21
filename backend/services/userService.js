@@ -20,6 +20,8 @@ function generateCode() {
     return Number(code);
 }
 
+const CODE_EXPIRATION_TIME = 1000 * 60 * 15 // 15 min
+
 module.exports = {
     async registrate(userData) {
         const candidate = await userModel.findOne({
@@ -38,31 +40,34 @@ module.exports = {
             password: hashPassword,
         })
 
-        this.sendCode(newUser)
-
-        return true
+        return newUser
     },
 
-    async sendCode(user) {
-        if(user.verificationCode) 
-            throw ApiError.BadRequest('Code has been sent')
-
-        const verificationCode = generateCode()
-        user.update({ verificationCode })
-
-        mailService.sendVerificationMail(user.email, verificationCode)
+    generateCode() {
+        const MIN = 0
+        const MAX = 9
+        const LENGTH = 6
+    
+        let code = ''
+    
+        for(let i = 0; i < LENGTH; i++) {
+            code += Math.floor(Math.random() * (MAX - MIN)) + MIN;
+        }
+    
+        return code;
     },
 
-    async verify(id, code) {
-        const user = await userModel.findOne({
-            where: { id }
-        })
+    async verifyEmail(id, code) {
+        const user = await userModel.findByPk(id)
 
         if(!user || !user.verificationCode)
             throw ApiError.BadRequest('User has not verification code')
 
-        if(user.verificationCode != code) 
+        else if(user.verificationCode != code) 
             throw ApiError.BadRequest('Invalid verification code')
+
+        else if(user.updatedAt + CODE_EXPIRATION_TIME > Date.now()) 
+            throw new ApiError(408, 'Code expiration time over')
 
         user.update({
             verificationCode: null,
@@ -80,11 +85,11 @@ module.exports = {
         if(!user) 
             throw ApiError.BadRequest('Invalid Email')
 
-        else if(!bcrypt.compare(password, user.password)) 
-            throw ApiError.BadRequest('Wrong password')
-
-        if(!user.isVerify) 
+        if(!user.isVerify)
             throw ApiError.BadRequest('Not verified')
+
+        if(!bcrypt.compare(password, user.password)) 
+            throw ApiError.BadRequest('Wrong password')
 
         const token = await tokenService.generateToken({
             id: user.id,
