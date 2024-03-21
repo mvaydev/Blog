@@ -5,7 +5,7 @@ const auth = require('../middleware/authMiddleware')
 
 router.get('/', userController.getAll)
 
-router.get('/login', 
+router.post('/login', 
     body('email').isEmail(), 
     body('password').isLength({
         min: 6,

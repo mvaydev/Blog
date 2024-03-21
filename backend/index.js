@@ -4,11 +4,13 @@ const express = require('express')
 const app = express()
 const sequelize = require('./db')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const router = require('./routes')
 const errorHandler = require('./middleware/errorHandling')
 
 app.use('static', express.static('public'))
+app.use(cors())
 
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
