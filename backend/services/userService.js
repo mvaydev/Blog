@@ -73,8 +73,6 @@ module.exports = {
             verificationCode: null,
             isVerify: true
         })
-
-        return await tokenService.generateToken({ id })
     },
 
     async login(email, password) {

@@ -1,20 +1,66 @@
-import Input from '../ui/Input.jsx'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { observer } from 'mobx-react-lite'
+import Block from '../components/Block'
+import { Context } from '../main';
 
-export default function Registration() {
+export default observer(() => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
+    const navigate = useNavigate()
+    const {store} = useContext(Context)
+
     return (
-        <>
-            <h1 className='text-2xl font-bold text-center'>Регистрация</h1>
-            <Input type='text' label='Имя' />
-            <Input type='email' label='Логин' />
-            <Input type='password' label='Пароль' />
-            <button className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'>Зарегистрироваться</button>
+        <Block header='Регистрация'>
+            <div className='flex flex-col gap-1'>
+                <label className='text-sm font-medium text-stone-800'>Имя</label>
+                <input 
+                    type='text' 
+                    className='border border-stone-400 rounded-md text-base p-1'
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                />
+            </div>
+
+            <div className='flex flex-col gap-1'>
+                <label className='text-sm font-medium text-stone-800'>Почта</label>
+                <input 
+                    type='email' 
+                    className='border border-stone-400 rounded-md text-base p-1'
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                />
+            </div>
+
+            <div className='flex flex-col gap-1'>
+                <label className='text-sm font-medium text-stone-800'>Пароль</label>
+                <input 
+                    type='password' 
+                    className='border border-stone-400 rounded-md text-base p-1'
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                />
+            </div>
+
+            <button 
+                className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
+                onClick={() => {
+                    store.registrate(name, email, password).then(res => {
+                        store.token = res
+                    })
+
+                    navigate('/verify')
+                }}  
+            >
+                Зарегистрироваться
+            </button>
+
             <span className='text-center text-sm'>
                 Есть аккаунт? 
                 {' '}
                 <Link to="/login" className='text-rose-500'>Войти</Link>
             </span>
-        </>
+        </Block>
     )
-}
+})

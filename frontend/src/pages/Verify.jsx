@@ -5,41 +5,29 @@ import Block from '../components/Block'
 import { Context } from '../main';
 
 export default observer(() => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [code, setCode] = useState('')
     const {store} = useContext(Context)
-    const navigate = useNavigate()
 
     return (
-        <Block header='Вход'>
+        <Block header='Подтверждение'>
             <div className='flex flex-col gap-1'>
-                <label className='text-sm font-medium text-stone-800'>Логин</label>
+                <label className='text-sm font-medium text-stone-800'>Код подтверждения</label>
                 <input 
-                    type='email' 
+                    type='number' 
                     className='border border-stone-400 rounded-md text-base p-1'
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                />
-            </div>
-
-            <div className='flex flex-col gap-1'>
-                <label className='text-sm font-medium text-stone-800'>Пароль</label>
-                <input 
-                    type='password' 
-                    className='border border-stone-400 rounded-md text-base p-1'
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
+                    onChange={(e) => setCode(e.target.value)}
+                    value={code}
                 />
             </div>
 
             <button 
                 className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
                 onClick={() => {
-                    store.login(email, password)
+                    store.verify(code)
                     navigate('/')
-                }}  
+                }} 
             >
-                Войти
+                Подтвердить
             </button>
 
             <span className='text-center text-sm'>

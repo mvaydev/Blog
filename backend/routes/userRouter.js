@@ -5,6 +5,8 @@ const auth = require('../middleware/authMiddleware')
 
 router.get('/', userController.getAll)
 
+router.get('/data', auth, userController.getProtect)
+
 router.post('/login', 
     body('email').isEmail(), 
     body('password').isLength({
@@ -14,9 +16,9 @@ router.post('/login',
     userController.login
 )
 
-router.post('/verify/:id/:code',
-    param('id').isInt(),
-    param('code').isInt(),
+router.post('/verify',
+    body('id').isInt(),
+    body('code').isInt(),
     userController.verifyEmail
 )
 

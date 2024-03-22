@@ -1,6 +1,9 @@
 const { userModel } = require('../models')
+
 const userService = require('../services/userService')
 const mailService = require('../services/mailService')
+const tokenService = require('../services/tokenService')
+
 const { validationResult } = require('express-validator')
 const ApiError = require('../apiError')
 
@@ -11,6 +14,20 @@ module.exports = {
 
             res.json(users)
         } catch (e) {
+            next(e)
+        }
+    },
+
+    async getProtect(req, res, next) {
+        try {
+            if(!req.user) return next(ApiError.Unauthorized())
+
+            const user = await userModel.findByPk(req.user.id)
+
+            if(!user) return next(ApiError.Unauthorized())
+
+            res.json(user)
+        } catch(e) {
             next(e)
         }
     },
@@ -32,7 +49,10 @@ module.exports = {
             return
         }
 
-        res.json(user)
+        res.json({
+            name: user.name,
+            createdAt: user.createdAt
+        })
     },
 
     async registrate(req, res, next) {
@@ -46,10 +66,9 @@ module.exports = {
             const verificationCode = userService.generateCode()
 
             mailService.sendVerificationMail(user.email, verificationCode)
-
-            res.status(201).json(user)
-
             user.update({ verificationCode })
+
+            res.status(201).json(user.id)
         } catch (e) {
             next(e)
         }
@@ -62,7 +81,13 @@ module.exports = {
                 return next(ApiError.BadRequest('Validation errors'))
             }
 
-            await userService.verifyEmail(req.params.id, req.params.code)
+            userService.verifyEmail(req.body.id, req.body.code)
+
+            const token = await tokenService.generateToken({
+                id: req.body.id
+            })
+
+            res.json(token)
         } catch(e) {
             next(e)
         }

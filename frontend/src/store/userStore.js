@@ -3,10 +3,9 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:5000/api/user'
 
-class UserStore {
+export default class UserStore {
     _token = ''
-    isAuth = false
-    user = {}
+    _isAuth = false
 
     constructor(){
         makeAutoObservable(this)
@@ -26,6 +25,34 @@ class UserStore {
         localStorage.token = value
     }
 
+    get isAuth() {
+        if(!this._isAuth) {
+            let isAuth = localStorage.isAuth
+            this._isAuth = isAuth
+        }
+
+        return this._isAuth
+    }
+
+    set isAuth(value) {
+        this._isAuth = value
+        localStorage.isAuth = value
+    }
+
+    async fetchUser() {
+        try {
+            const response = await axios.get(API_URL + '/data', {
+                headers: {
+                    Authorization: "Bearer " + this.token
+                }
+            })
+
+            return response.data
+        } catch (e) {
+            console.log(e.response?.data?.message)
+        }
+    }
+
     async login(email, password) {
         try {
             const response = await axios.post(API_URL + '/login', {
@@ -34,45 +61,45 @@ class UserStore {
             })
 
             this.isAuth = true
-            this.token = response.data;
+            this.token = response.data
         } catch (e) {
-            console.log(e.response?.data?.message);
+            console.log(e.response?.data?.message)
         }
     }
 
     async verify(code) {
         try {
-            await axios.post(API_URL + '/verify', {
-                params: {
-                    id: this.user.id,
-                    verificationCode: code
-                }
+            const response = await axios.post(API_URL + '/verify', {
+                id: this.id,
+                code
             })
+
+            this.isAuth = true
+            this.token = response.data
         } catch (e) {
-            console.log(e.response?.data?.message);
+            console.log(e.response?.data?.message)
         }
     }
 
     async registrate(name, email, password) {
         try {
             const response = await axios.post(API_URL, {
-                data: {
-                    name,
-                    email,
-                    password
-                }
+                name,
+                email,
+                password
             })
 
-            this.user = response.data.user
+            this.id = response.data
+
+            return response.data
         } catch (e) {
-            console.log(e.response?.data?.message);
+            console.log(e.response?.data?.message)
         }
     }
 
     logout() {
         delete localStorage.token
+        this.token = null
         this.isAuth = false
     } 
 }
-
-export default new UserStore
