@@ -6,7 +6,7 @@ import { Context } from '../main';
 
 export default observer(() => {
     const [code, setCode] = useState('')
-    const {store} = useContext(Context)
+    const {userStore} = useContext(Context)
 
     return (
         <Block header='Подтверждение'>
@@ -23,7 +23,7 @@ export default observer(() => {
             <button 
                 className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
                 onClick={() => {
-                    store.verify(code)
+                    userStore.verify(code)
                     navigate('/')
                 }} 
             >

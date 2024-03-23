@@ -4,12 +4,14 @@ import App from './App'
 import './index.css'
 import UserStore from './store/userStore'
 
-export const store = new UserStore()
-export const Context = createContext({store})
+export const userStore = new UserStore()
+export const Context = createContext({userStore})
 
 createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-		<Context.Provider value={{store}}>
+		<Context.Provider value={{
+			userStore
+		}}>
 			<App />
 		</Context.Provider>
 	</React.StrictMode>,

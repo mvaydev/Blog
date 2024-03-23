@@ -7,7 +7,7 @@ import { Context } from '../main';
 export default observer(() => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const {store} = useContext(Context)
+    const { userStore } = useContext(Context)
     const navigate = useNavigate()
 
     return (
@@ -35,7 +35,7 @@ export default observer(() => {
             <button 
                 className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
                 onClick={() => {
-                    store.login(email, password)
+                    userStore.login(email, password)
                     navigate('/')
                 }}  
             >

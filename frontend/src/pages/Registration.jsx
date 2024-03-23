@@ -9,7 +9,7 @@ export default observer(() => {
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
     const navigate = useNavigate()
-    const {store} = useContext(Context)
+    const { userStore } = useContext(Context)
 
     return (
         <Block header='Регистрация'>
@@ -46,8 +46,8 @@ export default observer(() => {
             <button 
                 className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
                 onClick={() => {
-                    store.registrate(name, email, password).then(res => {
-                        store.token = res
+                    userStore.registrate(name, email, password).then(res => {
+                        userStore.token = res
                     })
 
                     navigate('/verify')

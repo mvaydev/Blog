@@ -18,18 +18,23 @@ module.exports = {
         }
     },
 
-    async getProtect(req, res, next) {
-        try {
-            if(!req.user) return next(ApiError.Unauthorized())
-
-            const user = await userModel.findByPk(req.user.id)
-
-            if(!user) return next(ApiError.Unauthorized())
-
-            res.json(user)
-        } catch(e) {
-            next(e)
+    async authGet(req, res, next) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next(ApiError.BadRequest('Validation errors'))
         }
+
+        const user = await userModel.findOne({
+            where: {
+                id: req.user.id
+            }
+        })
+
+        if(!user) {
+            return next(ApiError.NotFound())
+        }
+
+        res.json(user)
     },
 
     async get(req, res, next) {
@@ -45,8 +50,7 @@ module.exports = {
         })
 
         if(!user) {
-            res.status(404).send({message: 'Not Found'})
-            return
+            return next(ApiError.NotFound())
         }
 
         res.json({

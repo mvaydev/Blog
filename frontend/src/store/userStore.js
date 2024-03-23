@@ -39,13 +39,23 @@ export default class UserStore {
         localStorage.isAuth = value
     }
 
-    async fetchUser() {
+    async fetchAuthUser() {
         try {
-            const response = await axios.get(API_URL + '/data', {
+            const response = await axios.get(API_URL, {
                 headers: {
                     Authorization: "Bearer " + this.token
                 }
             })
+
+            return response.data
+        } catch (e) {
+            console.log(e.response?.data?.message)
+        }
+    }
+
+    async fetchUser(id) {
+        try {
+            const response = await axios.get(API_URL + '/' + id)
 
             return response.data
         } catch (e) {

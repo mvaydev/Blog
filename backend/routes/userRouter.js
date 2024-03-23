@@ -3,10 +3,6 @@ const router = new require('express').Router()
 const { body, param } = require('express-validator')
 const auth = require('../middleware/authMiddleware')
 
-router.get('/', userController.getAll)
-
-router.get('/data', auth, userController.getProtect)
-
 router.post('/login', 
     body('email').isEmail(), 
     body('password').isLength({
@@ -30,6 +26,11 @@ router.delete('/:id',
 router.get('/:id', 
     param('id').isInt(),
     userController.get
+)
+
+router.get('/', 
+    auth,
+    userController.authGet
 )
 
 router.post('/', 
