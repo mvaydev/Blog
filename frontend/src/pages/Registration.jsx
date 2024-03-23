@@ -46,11 +46,14 @@ export default observer(() => {
             <button 
                 className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
                 onClick={() => {
-                    userStore.registrate(name, email, password).then(res => {
-                        userStore.token = res
+                    userStore.registrate(name, email, password).then(() => {
+                        navigate('/verify', {
+                            state: {
+                                callbackName: userStore.login.name,
+                                callbackParams: [email, password]
+                            }
+                        })
                     })
-
-                    navigate('/verify')
                 }}  
             >
                 Зарегистрироваться

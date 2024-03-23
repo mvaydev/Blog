@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState, useContext, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import Block from '../components/Block'
 import { Context } from '../main';
@@ -7,6 +7,13 @@ import { Context } from '../main';
 export default observer(() => {
     const [code, setCode] = useState('')
     const {userStore} = useContext(Context)
+    const {state} = useLocation()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(!state || !state.callbackName || !state.callbackParams) 
+            navigate(-1)
+    }, [])
 
     return (
         <Block header='Подтверждение'>
@@ -23,18 +30,14 @@ export default observer(() => {
             <button 
                 className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
                 onClick={() => {
-                    userStore.verify(code)
+                    userStore.verify(code).then(() => {
+                        userStore[state.callbackName](...state.callbackParams)
+                    })
                     navigate('/')
                 }} 
             >
                 Подтвердить
             </button>
-
-            <span className='text-center text-sm'>
-                Нет аккаунта? 
-                {' '}
-                <Link to="/registration" className='text-rose-500'>Зарегистрироваться</Link>
-            </span>
         </Block>
     )
 })

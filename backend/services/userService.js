@@ -43,6 +43,22 @@ module.exports = {
         return newUser
     },
 
+    async sendCode(email) {
+        const user = await userModel.findOne({
+            where: { email }
+        })
+
+        if (!user) {
+            return next(ApiError.BadRequest('Invalid email'))
+        }
+
+        const verificationCode = this.generateCode()
+
+        mailService.sendVerificationMail(email, verificationCode)
+
+        user.update({ verificationCode })
+    },
+
     generateCode() {
         const MIN = 0
         const MAX = 9
@@ -57,7 +73,7 @@ module.exports = {
         return code;
     },
 
-    async verifyEmail(id, code) {
+    async verify(id, code) {
         const user = await userModel.findByPk(id)
 
         if(!user || !user.verificationCode)

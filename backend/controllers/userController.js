@@ -1,9 +1,5 @@
 const { userModel } = require('../models')
-
 const userService = require('../services/userService')
-const mailService = require('../services/mailService')
-const tokenService = require('../services/tokenService')
-
 const { validationResult } = require('express-validator')
 const ApiError = require('../apiError')
 
@@ -52,11 +48,22 @@ module.exports = {
         if(!user) {
             return next(ApiError.NotFound())
         }
+        res.json(user)
+    },
 
-        res.json({
-            name: user.name,
-            createdAt: user.createdAt
-        })
+    async sendCode(req, res, next) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation errors'))
+            }
+    
+            await userService.sendCode(req.params.email)
+
+            res.end()
+        } catch(e) {
+            next(e)
+        }
     },
 
     async registrate(req, res, next) {
@@ -67,10 +74,7 @@ module.exports = {
             }
 
             const user = await userService.registrate(req.body)
-            const verificationCode = userService.generateCode()
-
-            mailService.sendVerificationMail(user.email, verificationCode)
-            user.update({ verificationCode })
+            await userService.sendCode(user.email)
 
             res.status(201).json(user.id)
         } catch (e) {
@@ -78,20 +82,15 @@ module.exports = {
         }
     },
 
-    async verifyEmail(req, res, next) {
+    async verify(req, res, next) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Validation errors'))
             }
 
-            userService.verifyEmail(req.body.id, req.body.code)
-
-            const token = await tokenService.generateToken({
-                id: req.body.id
-            })
-
-            res.json(token)
+            userService.verify(req.body.id, req.body.code)
+            res.end()
         } catch(e) {
             next(e)
         }

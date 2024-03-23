@@ -15,7 +15,12 @@ router.post('/login',
 router.post('/verify',
     body('id').isInt(),
     body('code').isInt(),
-    userController.verifyEmail
+    userController.verify
+)
+
+router.post('/send-code/:id',
+    param('email').isEmail(),
+    userController.verify
 )
 
 router.delete('/:id', 

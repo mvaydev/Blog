@@ -28,7 +28,7 @@ export default class UserStore {
     get isAuth() {
         if(!this._isAuth) {
             let isAuth = localStorage.isAuth
-            this._isAuth = isAuth
+            this._isAuth = isAuth === 'true'
         }
 
         return this._isAuth
@@ -79,13 +79,10 @@ export default class UserStore {
 
     async verify(code) {
         try {
-            const response = await axios.post(API_URL + '/verify', {
+            await axios.post(API_URL + '/verify', {
                 id: this.id,
                 code
             })
-
-            this.isAuth = true
-            this.token = response.data
         } catch (e) {
             console.log(e.response?.data?.message)
         }
@@ -100,8 +97,6 @@ export default class UserStore {
             })
 
             this.id = response.data
-
-            return response.data
         } catch (e) {
             console.log(e.response?.data?.message)
         }

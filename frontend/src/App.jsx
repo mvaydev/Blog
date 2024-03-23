@@ -14,28 +14,24 @@ import ProfileWithId from './pages/ProfileWithId'
 export default observer(() => {
 	const { userStore } = useContext(Context);
 
-	if(userStore.isAuth === 'false') {
-		return (
-			<BrowserRouter>
-				<Routes>
-					<Route index element={
-						<Navigate to='/login' replace />
-					}>
-					</Route>
-
-					<Route path='/login' element={<Login />} />
-					<Route path='/registration' element={<Registration />} />
-					<Route path='/verify' element={<Verify />} />
-				</Routes>
-			</BrowserRouter>
-		)
-	}
-
 	return (
 		<BrowserRouter>
 			<Routes>
+				{
+					userStore.isAuth ? (
+						<>
+							<Route path='/profile' element={<Profile />}></Route>
+						</>
+					) : (
+						<>
+							<Route path='/login' element={<Login />}></Route>
+							<Route path='/registration' element={<Registration />}></Route>
+						</>
+					)
+				}
+
 				<Route path='/' element={<Main />}></Route>
-				<Route path='/profile' element={<Profile />}></Route>
+				<Route path='/verify' element={<Verify />}></Route>
 				<Route path='/profile/:id' element={<ProfileWithId />}></Route>
 				<Route path='*' element={<Navigate to='/'></Navigate>}></Route>
 			</Routes>
