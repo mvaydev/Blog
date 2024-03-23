@@ -1,7 +1,5 @@
 const bcrypt = require('bcrypt')
-
 const ApiError = require('../apiError')
-
 const { userModel } = require('../models')
 const tokenService = require('./tokenService')
 const mailService = require('./mailService')
@@ -102,7 +100,9 @@ module.exports = {
         if(!user.isVerify)
             throw ApiError.BadRequest('Not verified')
 
-        if(!bcrypt.compare(password, user.password)) 
+        const compareResult = await bcrypt.compare(password, user.password)
+
+        if(!compareResult) 
             throw ApiError.BadRequest('Wrong password')
 
         const token = await tokenService.generateToken({
@@ -110,5 +110,21 @@ module.exports = {
         })
 
         return token
+    },
+
+    async changePassword(id, oldPassword, newPassword) {
+        const user = await userModel.findByPk(id)
+
+        if(!user) 
+            throw ApiError.NotFound()
+
+        const compareResult = await bcrypt.compare(oldPassword, user.password)
+
+        if(!compareResult)
+            throw ApiError.BadRequest('Wrong password')
+
+        user.update({
+            password: await bcrypt.hash(newPassword, 10)
+        })
     }
 }

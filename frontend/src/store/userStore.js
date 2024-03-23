@@ -57,6 +57,8 @@ export default class UserStore {
         try {
             const response = await axios.get(API_URL + '/' + id)
 
+            console.log(response.data)
+
             return response.data
         } catch (e) {
             console.log(e.response?.data?.message)
@@ -107,4 +109,18 @@ export default class UserStore {
         this.token = null
         this.isAuth = false
     } 
+
+    async changePassword(oldPassword, newPassword) {
+        try {
+            await axios.put(API_URL + '/change-password', {
+                oldPassword, newPassword
+            }, {
+                headers: {
+                    Authorization: "Bearer " + this.token
+                }
+            })
+        } catch (e) {
+            console.log(e.response?.data?.message)
+        }
+    }
 }

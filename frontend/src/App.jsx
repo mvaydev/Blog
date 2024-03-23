@@ -11,6 +11,7 @@ import Verify from './pages/Verify'
 import Profile from './pages/Profile'
 import ProfileWithId from './pages/ProfileWithId'
 import Settings from './pages/Settings'
+import ChangePassword from './pages/ChangePassword'
 
 export default observer(() => {
 	const { userStore } = useContext(Context);
@@ -23,6 +24,7 @@ export default observer(() => {
 						<>
 							<Route path='/profile' element={<Profile />}></Route>
 							<Route path='/settings' element={<Settings />}></Route>
+							<Route path='/change-password' element={<ChangePassword />}></Route>
 						</>
 					) : (
 						<>

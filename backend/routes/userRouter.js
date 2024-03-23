@@ -48,4 +48,14 @@ router.post('/',
     userController.registrate
 )
 
+router.put('/change-password', 
+    auth,
+    body('oldPassword').notEmpty(),
+    body('newPassword').isLength({
+        min: 6,
+        max: 16
+    }),
+    userController.changePassword
+)
+
 module.exports = router

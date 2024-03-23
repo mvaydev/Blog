@@ -130,4 +130,23 @@ module.exports = {
 
         res.json(user)
     },
+
+    async changePassword(req, res, next) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation errors'))
+            }
+    
+            userService.changePassword(
+                req.user.id, 
+                req.body.oldPassword, 
+                req.body.newPassword
+            )
+
+            res.end()
+        } catch(e) {
+            next(e)
+        }
+    },
 }
