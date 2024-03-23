@@ -8,11 +8,13 @@ import Login from './pages/Login'
 import Registration from './pages/Registration'
 import Main from './pages/Main'
 import Verify from './pages/Verify'
+import Profile from './pages/Profile'
+import ProfileWithId from './pages/ProfileWithId'
 
 export default observer(() => {
-	const { store } = useContext(Context);
+	const { userStore } = useContext(Context);
 
-	if(store.isAuth === 'false') {
+	if(userStore.isAuth === 'false') {
 		return (
 			<BrowserRouter>
 				<Routes>
@@ -33,6 +35,8 @@ export default observer(() => {
 		<BrowserRouter>
 			<Routes>
 				<Route path='/' element={<Main />}></Route>
+				<Route path='/profile' element={<Profile />}></Route>
+				<Route path='/profile/:id' element={<ProfileWithId />}></Route>
 				<Route path='*' element={<Navigate to='/'></Navigate>}></Route>
 			</Routes>
 		</BrowserRouter>
