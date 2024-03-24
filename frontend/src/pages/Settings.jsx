@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
-import { Context } from '../main'
-import Navbar from '../components/Navbar'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
+import { Context } from '../main'
+import Navbar from '../components/Navbar'
 
 export default () => {
     const { userStore } = useContext(Context)
@@ -11,10 +11,13 @@ export default () => {
 
     useEffect(() => {
         userStore.fetchAuthUser()
-        .then(res => {
-            setUser(res)
-        })
+        .then(res => setUser(res))
     }, [])
+
+    const handleLogout = () => {
+        userStore.logout()
+        navigate('/login')
+    }
 
     return (
         <>
@@ -52,10 +55,7 @@ export default () => {
                                 <div className='flex gap-2'>
                                     <button 
                                         className='bg-rose-500 py-1.5 px-6 w-fit rounded-md text-white hover:bg-rose-600'
-                                        onClick={() => {
-                                            userStore.logout()
-                                            navigate('/login')
-                                        }}
+                                        onClick={handleLogout}
                                     >
                                         Выйти
                                     </button>

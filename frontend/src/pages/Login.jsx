@@ -1,14 +1,19 @@
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
+import { Context } from '../main'
 import Block from '../components/Block'
-import { Context } from '../main';
 
 export default observer(() => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const { userStore } = useContext(Context)
     const navigate = useNavigate()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleLogin = () => {
+        userStore.login(email, password)
+        navigate('/')
+    }
 
     return (
         <Block header='Вход'>
@@ -34,10 +39,7 @@ export default observer(() => {
 
             <button 
                 className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
-                onClick={() => {
-                    userStore.login(email, password)
-                    navigate('/')
-                }}  
+                onClick={handleLogin}  
             >
                 Войти
             </button>

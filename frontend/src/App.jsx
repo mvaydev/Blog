@@ -1,4 +1,3 @@
-import './App.css'
 import { useContext } from 'react'
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'

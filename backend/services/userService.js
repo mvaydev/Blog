@@ -4,23 +4,23 @@ const { userModel } = require('../models')
 const tokenService = require('./tokenService')
 const mailService = require('./mailService')
 
-function generateCode() {
-    const MIN = 0
-    const MAX = 9
-    const LENGTH = 6
-
-    let code = ''
-
-    for(let i = 0; i < LENGTH; i++) {
-        code += Math.floor(Math.random() * (MAX - MIN)) + MIN;
-    }
-
-    return Number(code);
-}
-
 const CODE_EXPIRATION_TIME = 1000 * 60 * 15 // 15 min
 
 module.exports = {
+    generateCode() {
+        const MIN = 0
+        const MAX = 9
+        const LENGTH = 6
+    
+        let code = ''
+    
+        for(let i = 0; i < LENGTH; i++) {
+            code += Math.floor(Math.random() * (MAX - MIN)) + MIN;
+        }
+    
+        return code;
+    },
+
     async registrate(userData) {
         const candidate = await userModel.findOne({
             where: {
@@ -55,20 +55,6 @@ module.exports = {
         mailService.sendVerificationMail(email, verificationCode)
 
         user.update({ verificationCode })
-    },
-
-    generateCode() {
-        const MIN = 0
-        const MAX = 9
-        const LENGTH = 6
-    
-        let code = ''
-    
-        for(let i = 0; i < LENGTH; i++) {
-            code += Math.floor(Math.random() * (MAX - MIN)) + MIN;
-        }
-    
-        return code;
     },
 
     async verify(id, code) {

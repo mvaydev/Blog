@@ -1,14 +1,19 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
+import { Context } from '../main'
 import Block from '../components/Block'
-import { Context } from '../main';
 
 export default observer(() => {
     const [newPassword, setNewPassword] = useState('')
     const [oldPassword, setOldPassword] = useState('')
     const { userStore } = useContext(Context)
     const navigate = useNavigate()
+
+    const handleChangePassword = () => {
+        userStore.changePassword(oldPassword, newPassword)
+        .then(() => navigate('/profile')) 
+    }
 
     return (
         <Block header='Вход'>
@@ -34,11 +39,7 @@ export default observer(() => {
 
             <button 
                 className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
-                onClick={() => {
-                    userStore.changePassword(oldPassword, newPassword).then(() => {
-                        navigate('/profile')
-                    }) 
-                }}  
+                onClick={handleChangePassword}  
             >
                 Изменить
             </button>

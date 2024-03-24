@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { Context } from '../main'
 import Navbar from '../components/Navbar'
-import { useNavigate } from 'react-router'
-import { useParams } from 'react-router-dom'
 
 function getRegistrationDate(user) {
     const userCreatedAtTimestamp = new Date(user.createdAt)
@@ -16,18 +16,14 @@ function getRegistrationTime(user) {
 
 export default () => {
     const { userStore } = useContext(Context)
+    const navigate = useNavigate()
     const paramUserId = useParams().id
     const [user, setUser] = useState(null)
-    const navigate = useNavigate()
 
     useEffect(() => {
         userStore.fetchUser(paramUserId)
-        .then(res => {
-            setUser(res)
-        })
-        .catch(() => {
-            navigate('/')
-        })
+        .then(res => setUser(res))
+        .catch(() => navigate(-1))
     }, [])
 
     return (

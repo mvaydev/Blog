@@ -45,10 +45,13 @@ module.exports = {
             }
         })
 
-        if(!user) {
-            return next(ApiError.NotFound())
-        }
-        res.json(user)
+        if(!user) return next(ApiError.NotFound())
+
+        res.json({
+            id: user.id,
+            name: user.name,
+            createdAt: user.createdAt
+        })
     },
 
     async sendCode(req, res, next) {
@@ -113,18 +116,11 @@ module.exports = {
     },
 
     async delete(req, res, next) {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return next(ApiError.BadRequest('Validation errors'))
-        }
-
         const user = await userModel.findOne({
-            where: {
-                id: req.params.id
-            }
+            where: { id: req.user.id }
         })
 
-        if(!user) res.status(404).send({message: 'Not Found'})
+        if(!user) return next(ApiError.NotFound())
 
         await user.destroy()
 
