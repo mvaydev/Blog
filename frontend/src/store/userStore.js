@@ -57,8 +57,6 @@ export default class UserStore {
         try {
             const response = await axios.get(API_URL + '/' + id)
 
-            console.log(response.data)
-
             return response.data
         } catch (e) {
             console.log(e.response?.data?.message)

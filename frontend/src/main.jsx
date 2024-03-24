@@ -1,6 +1,6 @@
 import App from './App'
 import './index.css'
-import { createContext } from 'react'
+import React, { createContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import UserStore from './store/userStore'
 
