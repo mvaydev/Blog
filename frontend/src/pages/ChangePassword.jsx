@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../main'
-import Block from '../components/Block'
+import Block from '../components/Widget'
 
 export default observer(() => {
     const [newPassword, setNewPassword] = useState('')

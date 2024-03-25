@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../main'
-import Block from '../components/Block'
+import Widget from '../components/Widget'
 
 export default observer(() => {
     const navigate = useNavigate()
@@ -23,7 +23,7 @@ export default observer(() => {
     }
 
     return (
-        <Block header='Регистрация'>
+        <Widget header='Регистрация'>
             <div className='flex flex-col gap-1'>
                 <label className='text-sm font-medium text-stone-800'>Имя</label>
                 <input 
@@ -66,6 +66,6 @@ export default observer(() => {
                 {' '}
                 <Link to="/login" className='text-rose-500'>Войти</Link>
             </span>
-        </Block>
+        </Widget>
     )
 })

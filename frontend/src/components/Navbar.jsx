@@ -1,5 +1,5 @@
 import Logo from '../assets/img/logo.svg'
-import Heart from '../assets/img/heart.svg'
+import Heart from '../assets/img/heart_filled.svg'
 import Write from '../assets/img/write.svg'
 import Profile from '../assets/img/profile.svg'
 import { Link } from 'react-router-dom'
@@ -18,7 +18,7 @@ export default () => {
     const {userStore} = useContext(Context)
 
     return (
-        <div className='w-full flex justify-center shadow-md'>
+        <div className='w-full flex justify-center shadow-md bg-white'>
             <div className='max-w-5xl w-full flex justify-between gap-16 items-center p-2.5'>
                 <Link to='/'>
                     <img src={Logo} />

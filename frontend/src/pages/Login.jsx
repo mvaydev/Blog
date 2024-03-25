@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../main'
-import Block from '../components/Block'
+import Widget from '../components/Widget'
 
 export default observer(() => {
     const { userStore } = useContext(Context)
@@ -16,7 +16,7 @@ export default observer(() => {
     }
 
     return (
-        <Block header='Вход'>
+        <Widget header='Вход'>
             <div className='flex flex-col gap-1'>
                 <label className='text-sm font-medium text-stone-800'>Логин</label>
                 <input 
@@ -49,6 +49,6 @@ export default observer(() => {
                 {' '}
                 <Link to="/registration" className='text-rose-500'>Зарегистрироваться</Link>
             </span>
-        </Block>
+        </Widget>
     )
 })

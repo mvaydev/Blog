@@ -5,6 +5,7 @@ import { Context } from '../main'
 import Navbar from '../components/Navbar'
 import ChangeFieldInput from '../components/ChangeFieldInput'
 import UserSettingsField from '../components/UserSettingsField'
+import Block from '../components/Block'
 
 export default () => {
     const { userStore } = useContext(Context)
@@ -46,7 +47,7 @@ export default () => {
             <Navbar />
 
             <div className='-w-full flex justify-center mt-8'>
-                <div className='max-w-5xl w-full rounded-md flex flex-col gap-3 shadow-md p-4'>
+                <Block>
                     {
                         user && (
                             <div className='flex flex-col gap-8'>
@@ -93,7 +94,7 @@ export default () => {
                             </div>
                         )
                     }
-                </div>
+                </Block>
             </div>
         </>
     )

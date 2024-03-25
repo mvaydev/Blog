@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../main';
-import Block from '../components/Block'
+import Widget from '../components/Widget'
 
 export default observer(() => {
     const {userStore} = useContext(Context)
@@ -24,7 +24,7 @@ export default observer(() => {
     }
 
     return (
-        <Block header='Подтверждение'>
+        <Widget header='Подтверждение'>
             <div className='flex flex-col gap-1'>
                 <label className='text-sm font-medium text-stone-800'>Код подтверждения</label>
                 <input 
@@ -41,6 +41,6 @@ export default observer(() => {
             >
                 Подтвердить
             </button>
-        </Block>
+        </Widget>
     )
 })
