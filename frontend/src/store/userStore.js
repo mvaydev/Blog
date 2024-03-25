@@ -148,9 +148,11 @@ export default class UserStore {
         }
     }
 
-    async sendCode(email) {
+    async sendCode(id, email) {
         try {
-            await axios.post(API_URL + '/send-code/' + email)
+            await axios.post(API_URL + '/send-code', {
+                id, email
+            })
         } catch (e) {
             console.log(e.response?.data?.message)
         }

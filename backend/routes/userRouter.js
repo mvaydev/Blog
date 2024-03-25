@@ -41,8 +41,9 @@ router.post('/',
     userController.registrate
 )
 
-router.post('/send-code/:email', 
-    param('email').isEmail(),
+router.post('/send-code', 
+    body('id').isInt(),
+    body('email').isEmail(),
     userController.sendCode
 )
 

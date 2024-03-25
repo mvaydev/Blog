@@ -22,7 +22,7 @@ export default () => {
     }
 
     const handleChangeEmail = (newEmail) => {
-        userStore.sendCode(user.email)
+        userStore.sendCode(user.id, newEmail)
         userStore.id = user.id
         
         navigate('/verify', {

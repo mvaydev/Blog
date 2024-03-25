@@ -61,7 +61,7 @@ module.exports = {
                 return next(ApiError.BadRequest('Validation errors'))
             }
     
-            await userService.sendCode(req.params.email)
+            await userService.sendCode(req.body.id, req.body.email)
 
             res.end()
         } catch(e) {
@@ -77,7 +77,7 @@ module.exports = {
             }
 
             const user = await userService.registrate(req.body)
-            await userService.sendCode(user.email)
+            await userService.sendCode(user.id, user.email)
 
             res.status(201).json(user.id)
         } catch (e) {

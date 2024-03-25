@@ -41,14 +41,10 @@ module.exports = {
         return newUser
     },
 
-    async sendCode(email) {
-        const user = await userModel.findOne({
-            where: { email }
-        })
+    async sendCode(id, email) {
+        const user = await userModel.findByPk(id)
 
-        if (!user) {
-            return next(ApiError.BadRequest('Invalid email'))
-        }
+        if (!user) throw ApiError.NotFound()
 
         const verificationCode = this.generateCode()
 
