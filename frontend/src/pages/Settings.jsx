@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { Context } from '../main'
 import Navbar from '../components/Navbar'
-import ChangeEmailInput from '../components/ChangeEmailInput'
+import ChangeFieldInput from '../components/ChangeFieldInput'
+import UserSettingsField from '../components/UserSettingsField'
 
 export default () => {
     const { userStore } = useContext(Context)
     const [user, setUser] = useState(null)
-    const [isChangeEmail, setIsChangeEmail] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -21,12 +21,24 @@ export default () => {
         navigate('/login')
     }
 
-    const handleChangeEmail = () => {
-        setIsChangeEmail(true)
+    const handleChangeEmail = (newEmail) => {
+        userStore.sendCode(user.email)
+        userStore.id = user.id
+        
+        navigate('/verify', {
+            state: {
+                callbackName: userStore.changeEmail.name,
+                callbackParams: [
+                    user.email,
+                    newEmail
+                ]
+            }
+        })
     }
 
-    const cancelChangeEmail = () => {
-        setIsChangeEmail(false)
+    const handleChangeName = (newName) => {
+        userStore.changeName(newName)
+        location.reload()
     }
 
     return (
@@ -41,29 +53,23 @@ export default () => {
                                 <h1 className='font-bold text-2xl'>Настройки</h1>
 
                                 <div className='flex flex-col w-full gap-4'>
-                                    <div className='flex w-full gap-4 justify-between'>
-                                        <p>Имя:</p>
-                                        <div className='text-stone-500 w-full'>{user.name}</div>
-                                        <p className='text-rose-500'>Изменить</p>
-                                    </div>
+                                    <UserSettingsField label='Имя' valueToDisplay={user.name}>
+                                        <ChangeFieldInput 
+                                            defaultValue=''
+                                            inputType='text'
+                                            placeholder='Введите новое имя'
+                                            clickHandler={handleChangeName}
+                                        />
+                                    </UserSettingsField>
 
-                                    <div className='flex w-full gap-4 justify-between'>
-                                        <p className='align-center'>Почта:</p>
-                                        <div className='text-stone-500 w-full'>{
-                                            isChangeEmail ? (
-                                                <ChangeEmailInput />
-                                            ) : (
-                                                user.email
-                                            )
-                                        }</div>
-                                        <button 
-                                            onClick={!isChangeEmail ? handleChangeEmail : cancelChangeEmail} 
-                                            className='text-rose-500 flex'>
-                                            {
-                                                !isChangeEmail ? 'Изменить' : 'Отмена'
-                                            }
-                                        </button>
-                                    </div>
+                                    <UserSettingsField label='Почта' valueToDisplay={user.email}>
+                                        <ChangeFieldInput 
+                                            defaultValue=''
+                                            inputType='email'
+                                            placeholder='Введите новую почту'
+                                            clickHandler={handleChangeEmail}
+                                        />
+                                    </UserSettingsField>
 
                                     <div className='flex w-full gap-4 justify-between'>
                                         <p>Пароль:</p>

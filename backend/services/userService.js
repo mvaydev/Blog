@@ -101,8 +101,7 @@ module.exports = {
     async changePassword(id, oldPassword, newPassword) {
         const user = await userModel.findByPk(id)
 
-        if(!user) 
-            throw ApiError.NotFound()
+        if(!user) throw ApiError.NotFound()
 
         const compareResult = await bcrypt.compare(oldPassword, user.password)
 
@@ -111,6 +110,29 @@ module.exports = {
 
         user.update({
             password: await bcrypt.hash(newPassword, 10)
+        })
+    },
+
+    async changeEmail(oldEmail, newEmail) {
+        const user = await userModel.findOne({
+            where: {email: oldEmail}
+        })
+
+        if(!user) throw ApiError.NotFound()
+        if(user.verificationCode) throw ApiError.BadRequest('Not verified')
+
+        user.update({
+            email: newEmail
+        })
+    },
+
+    async changeName(id ,newName) {
+        const user = await userModel.findByPk(id)
+
+        if(!user) throw ApiError.Unauthorized()
+
+        user.update({
+            name: newName
         })
     }
 }

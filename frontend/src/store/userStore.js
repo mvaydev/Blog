@@ -121,4 +121,38 @@ export default class UserStore {
             console.log(e.response?.data?.message)
         }
     }
+
+    async changeEmail(oldEmail, newEmail) {
+        try {
+            await axios.put(API_URL + '/change-email', {
+                oldEmail, newEmail
+            }, {
+                headers: {
+                    Authorization: "Bearer " + this.token
+                }
+            })
+        } catch (e) {
+            console.log(e.response?.data?.message)
+        }
+    }
+
+    async changeName(newName) {
+        try {
+            await axios.put(API_URL + '/change-name/' + newName, null, {
+                headers: {
+                    Authorization: "Bearer " + this.token
+                }
+            })
+        } catch (e) {
+            console.log(e.response?.data?.message)
+        }
+    }
+
+    async sendCode(email) {
+        try {
+            await axios.post(API_URL + '/send-code/' + email)
+        } catch (e) {
+            console.log(e.response?.data?.message)
+        }
+    }
 }

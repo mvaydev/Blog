@@ -1,6 +1,6 @@
 const { userModel } = require('../models')
 const userService = require('../services/userService')
-const { validationResult } = require('express-validator')
+const { param, validationResult } = require('express-validator')
 const ApiError = require('../apiError')
 
 module.exports = {
@@ -138,6 +138,37 @@ module.exports = {
                 req.user.id, 
                 req.body.oldPassword, 
                 req.body.newPassword
+            )
+
+            res.end()
+        } catch(e) {
+            next(e)
+        }
+    },
+
+    async changeEmail(req, res, next) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation errors'))
+            }
+    
+            await userService.changeEmail(
+                req.body.oldEmail, 
+                req.body.newEmail
+            )
+
+            res.end()
+        } catch(e) {
+            next(e)
+        }
+    },
+
+    async changeName(req, res, next) {
+        try {
+            await userService.changeName(
+                req.user.id,
+                req.params.name
             )
 
             res.end()

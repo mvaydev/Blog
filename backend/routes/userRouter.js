@@ -1,7 +1,10 @@
 const userController = require('../controllers/userController')
 const router = new require('express').Router()
-const { body, param } = require('express-validator')
+
 const auth = require('../middleware/authMiddleware')
+const { body, param, check } = require('express-validator')
+
+const ApiError = require('../apiError')
 
 router.get('/:id', 
     param('id').isInt(),
@@ -38,6 +41,11 @@ router.post('/',
     userController.registrate
 )
 
+router.post('/send-code/:email', 
+    param('email').isEmail(),
+    userController.sendCode
+)
+
 router.put('/change-password', 
     auth,
     body('oldPassword').notEmpty(),
@@ -46,6 +54,28 @@ router.put('/change-password',
         max: 16
     }),
     userController.changePassword
+)
+
+router.put('/change-email', 
+    auth,
+    body('oldEmail').isEmail(),
+    body('newEmail').isEmail(),
+    userController.changeEmail
+)
+
+router.put('/change-name/:name', 
+    auth,
+    check('name').custom(name => {
+        for(let char = 0; char < name.length; char++) {
+            if( !validator.isAlpha(value[charIdx], 'en-US') && 
+                !validator.isAlpha(value[charIdx], 'ru-RU')) {
+                throw ApiError.BadRequest('Validation errors')
+            }   
+        }
+  
+        return true
+    }),
+    userController.changeName
 )
 
 router.delete('/', 
