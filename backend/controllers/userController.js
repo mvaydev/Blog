@@ -1,6 +1,6 @@
 const { userModel } = require('../models')
 const userService = require('../services/userService')
-const { param, validationResult } = require('express-validator')
+const { validationResult } = require('express-validator')
 const ApiError = require('../apiError')
 
 module.exports = {

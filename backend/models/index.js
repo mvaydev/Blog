@@ -1,21 +1,42 @@
+const sequelize = require('../db')
+const {DataTypes} = require('sequelize')
 const userModel = require('./userModel')
-const postModel = require('./postModel')
-const commentModel = require('./commentModel')
-const likeModel = require('./likeModel')
+
+const likeModel = sequelize.define('like')
+
+const commentModel = sequelize.define('comment', {
+    content: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+})
+
+const postModel = sequelize.define('post', {
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+
+    content: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+})
 
 userModel.hasMany(postModel)
 userModel.hasMany(commentModel)
-userModel.hasMany(likeModel)
 
 postModel.hasMany(commentModel)
-postModel.hasMany(likeModel)
 postModel.belongsTo(userModel)
+
+postModel.belongsToMany(userModel, {through: likeModel})
+userModel.belongsToMany(postModel, {through: likeModel})
+
+postModel.belongsToMany(userModel, {through: commentModel})
+userModel.belongsToMany(postModel, {through: commentModel})
 
 commentModel.belongsTo(userModel)
 commentModel.belongsTo(postModel)
-
-likeModel.belongsTo(userModel)
-likeModel.belongsTo(postModel)
 
 module.exports = {
     userModel,
