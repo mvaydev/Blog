@@ -3,50 +3,10 @@ import Post from '../components/Post'
 
 const POSTS = [
     {
-        author: 'Maksim Vaysbekker',
+        userId: 18,
         createdAt: '12.09.2024 в 12:07',
-        title: 'Пост №1',
-        content: 'Lorem ipsum dolor sit amet',
-        likes: 12,
-        comments: 3
-    },
-    {
-        author: 'Maksim Vaysbekker',
-        createdAt: '12.09.2024 в 12:07',
-        title: 'Пост №2',
-        content: 'Lorem ipsum dolor sit amet',
-        likes: 12,
-        comments: 3
-    },
-    {
-        author: 'Maksim Vaysbekker',
-        createdAt: '12.09.2024 в 12:07',
-        title: 'Пост №3',
-        content: 'Lorem ipsum dolor sit amet',
-        likes: 12,
-        comments: 3
-    },
-    {
-        author: 'Maksim Vaysbekker',
-        createdAt: '12.09.2024 в 12:07',
-        title: 'Пост №4',
-        content: 'Lorem ipsum dolor sit amet',
-        likes: 12,
-        comments: 3
-    },
-    {
-        author: 'Maksim Vaysbekker',
-        createdAt: '12.09.2024 в 12:07',
-        title: 'Пост №5',
-        content: 'Lorem ipsum dolor sit amet',
-        likes: 12,
-        comments: 3
-    },
-    {
-        author: 'Maksim Vaysbekker',
-        createdAt: '12.09.2024 в 12:07',
-        title: 'Пост №6',
-        content: 'Lorem ipsum dolor sit amet',
+        title: 'Монитор ASUS GM807:  лучший варинат для геймеров',
+        content: 'Самый современный представитель игровых 4К IPS-решений в крупном размере. Правда, анонсирован он был на выставке CES в начале января 2021 года, а появился в реальной продаже ближе к лету того же года. Основной акцент в ASUS сделали, конечно, на скоростной 144-Гц UHD-панели и наличии HDMI 2.1, крайне актуальных для обладателей современных игровых приставок.',
         likes: 12,
         comments: 3
     },
@@ -56,14 +16,14 @@ export default () => {
     return (
         <>
             <Navbar />
-            <div className='flex flex-col gap-8 w-full items-center mt-8'>
+            <div className='flex flex-col gap-8 w-full items-center my-8'>
                 
 
                 {
                     POSTS.map((post, index) => 
                         <Post 
                             key={index} 
-                            author={post.author} 
+                            userId={post.userId} 
                             createdAt={post.createdAt} 
                             title={post.title} 
                             content={post.content} 

@@ -33,16 +33,20 @@ export default (props) => {
         <>
             <Block>
                 <div className='flex gap-1.5 items-center w-full'>
-                    <p className='font-medium'>{props.author}</p>
+                    <Link to={'/profile/' + props.userId}>Ivan Petrov</Link>
                     <p className='text-sm text-stone-500 '>{props.createdAt}</p>
                 </div>
-                <h1 className='text-xl font-bold'>{props.title}</h1>
+
+                <Link to={'/post/' + props.id}>
+                    <h1 className='text-xl font-bold'>{props.title}</h1>
+                </Link>
+
                 <p>{props.content}</p>
-                <div className='flex gap-1.5'>
+
+                <div className='flex gap-2'>
                     <LikeButton likes={props.likes} />
                     <Link 
-                        to={'/post/' + props.id + '/#comments'} 
-                        replace
+                        to={'/post/' + props.id + '/#comments'}
                         className='rounded-full bg-stone-200 py-1.5 px-3 w-fit flex gap-1.5 hover:bg-stone-300'
                     >
                         <span className='text-stone-500'>{props.comments}</span>
