@@ -1,7 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import axios from 'axios'
-
-const API_URL = 'http://localhost:5000/api/user'
+import { USER_API_URL } from '../utils/consts' 
 
 export default class UserStore {
     _token = ''
@@ -41,7 +40,7 @@ export default class UserStore {
 
     async fetchAuthUser() {
         try {
-            const response = await axios.get(API_URL, {
+            const response = await axios.get(USER_API_URL, {
                 headers: {
                     Authorization: "Bearer " + this.token
                 }
@@ -55,7 +54,7 @@ export default class UserStore {
 
     async fetchUser(id) {
         try {
-            const response = await axios.get(API_URL + '/' + id)
+            const response = await axios.get(USER_API_URL + '/' + id)
 
             return response.data
         } catch (e) {
@@ -65,7 +64,7 @@ export default class UserStore {
 
     async login(email, password) {
         try {
-            const response = await axios.post(API_URL + '/login', {
+            const response = await axios.post(USER_API_URL + '/login', {
                 email,
                 password
             })
@@ -79,7 +78,7 @@ export default class UserStore {
 
     async verify(code) {
         try {
-            await axios.post(API_URL + '/verify', {
+            await axios.post(USER_API_URL + '/verify', {
                 id: this.id,
                 code
             })
@@ -90,7 +89,7 @@ export default class UserStore {
 
     async registrate(name, email, password) {
         try {
-            const response = await axios.post(API_URL, {
+            const response = await axios.post(USER_API_URL, {
                 name,
                 email,
                 password
@@ -110,7 +109,7 @@ export default class UserStore {
 
     async changePassword(oldPassword, newPassword) {
         try {
-            await axios.put(API_URL + '/change-password', {
+            await axios.put(USER_API_URL + '/change-password', {
                 oldPassword, newPassword
             }, {
                 headers: {
@@ -124,7 +123,7 @@ export default class UserStore {
 
     async changeEmail(oldEmail, newEmail) {
         try {
-            await axios.put(API_URL + '/change-email', {
+            await axios.put(USER_API_URL + '/change-email', {
                 oldEmail, newEmail
             }, {
                 headers: {
@@ -138,7 +137,7 @@ export default class UserStore {
 
     async changeName(newName) {
         try {
-            await axios.put(API_URL + '/change-name/' + newName, null, {
+            await axios.put(USER_API_URL + '/change-name/' + newName, null, {
                 headers: {
                     Authorization: "Bearer " + this.token
                 }
@@ -150,7 +149,7 @@ export default class UserStore {
 
     async sendCode(id, email) {
         try {
-            await axios.post(API_URL + '/send-code', {
+            await axios.post(USER_API_URL + '/send-code', {
                 id, email
             })
         } catch (e) {

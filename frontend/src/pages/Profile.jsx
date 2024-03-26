@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 import { Context } from '../main'
 import Navbar from '../components/Navbar'
 import Block from '../components/Block'
-import { getFullCreatedAt } from '../helpers'
+import { getFullCreatedAt } from '../utils/helpers'
 
 export default () => {
     const { userStore } = useContext(Context)

@@ -1,10 +1,13 @@
-import { useState } from 'react'
-import Block from '../components/Block'
+import { useContext, useEffect, useState } from 'react'
+import { Context } from '../main'
 import { Link } from 'react-router-dom'
+import Block from '../components/Block'
+import { getFullCreatedAt } from '../utils/helpers'
 
 import Like from '../assets/img/heart.svg'
 import Liked from '../assets/img/heart_filled.svg'
 import Comment from '../assets/img/comment.svg'
+
 
 function LikeButton(props) {
     const [likes, setLikes] = useState(props.likes)
@@ -29,12 +32,19 @@ function LikeButton(props) {
 }
 
 export default (props) => {
+    const [userName, setUserName] = useState('')
+    const {userStore} = useContext(Context)
+
+    useEffect(() => {
+        userStore.fetchUser(props.userId).then(({name}) => setUserName(name))
+    }, [])
+
     return (
         <>
             <Block>
                 <div className='flex gap-1.5 items-center w-full'>
-                    <Link to={'/profile/' + props.userId}>Ivan Petrov</Link>
-                    <p className='text-sm text-stone-500 '>{props.createdAt}</p>
+                    <Link to={'/profile/' + props.userId}>{userName && userName}</Link>
+                    <p className='text-sm text-stone-500 '>{getFullCreatedAt(props.createdAt)}</p>
                 </div>
 
                 <Link to={'/post/' + props.id}>
