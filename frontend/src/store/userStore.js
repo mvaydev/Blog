@@ -49,6 +49,7 @@ export default class UserStore {
 
     logout() {
         delete localStorage.token
+        delete localStorage.isAuth
         this.token = null
         this.isAuth = false
     } 
