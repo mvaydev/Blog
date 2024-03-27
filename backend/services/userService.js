@@ -114,8 +114,11 @@ module.exports = {
             where: {email: oldEmail}
         })
 
-        if(!user) throw ApiError.NotFound()
-        if(user.verificationCode) throw ApiError.BadRequest('Not verified')
+        if(!user || !user.verificationCode)
+            throw ApiError.BadRequest('User has not verification code')
+
+        else if(user.updatedAt + CODE_EXPIRATION_TIME > Date.now()) 
+            throw new ApiError(408, 'Code expiration time over')
 
         user.update({
             email: newEmail

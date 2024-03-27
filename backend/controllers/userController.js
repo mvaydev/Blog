@@ -79,7 +79,7 @@ module.exports = {
             const user = await userService.registrate(req.body)
             await userService.sendCode(user.id, user.email)
 
-            res.status(201).json(user.id)
+            res.status(201).json(user)
         } catch (e) {
             next(e)
         }

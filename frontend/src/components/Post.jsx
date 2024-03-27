@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react'
-import { Context } from '../main'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Block from '../components/Block'
 import { getFullCreatedAt } from '../utils/helpers'
+import { fetchUser } from '../api/userApi'
 
 import Like from '../assets/img/heart.svg'
 import Liked from '../assets/img/heart_filled.svg'
@@ -33,10 +33,9 @@ function LikeButton(props) {
 
 export default (props) => {
     const [userName, setUserName] = useState('')
-    const {userStore} = useContext(Context)
 
     useEffect(() => {
-        userStore.fetchUser(props.userId).then(({name}) => setUserName(name))
+        fetchUser(props.userId).then(({name}) => setUserName(name))
     }, [])
 
     return (

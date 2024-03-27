@@ -1,21 +1,20 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router'
-import { Context } from '../main'
 import Navbar from '../components/Navbar'
 import Block from '../components/Block'
 import { getFullCreatedAt } from '../utils/helpers'
+import { fetchUser } from '../api/userApi'
 
 export default () => {
-    const { userStore } = useContext(Context)
     const navigate = useNavigate()
     const paramUserId = useParams().id
     const [user, setUser] = useState(null)
 
     useEffect(() => {
-        userStore.fetchUser(paramUserId)
+        fetchUser(paramUserId)
         .then(res => setUser(res))
-        .catch(() => navigate(-1))
+        .catch(() => navigate('/'))
     }, [])
 
     return (

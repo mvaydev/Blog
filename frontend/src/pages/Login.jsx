@@ -1,18 +1,20 @@
-import { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { observer } from 'mobx-react-lite'
+import { useContext, useState } from 'react'
 import { Context } from '../main'
+import { observer } from 'mobx-react-lite'
+import { Link } from 'react-router-dom'
+import { login } from '../api/userApi'
 import Widget from '../components/Widget'
 
+
 export default observer(() => {
-    const { userStore } = useContext(Context)
-    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const { userStore } = useContext(Context)
 
     const handleLogin = () => {
-        userStore.login(email, password)
-        navigate('/')
+        login(email, password).then(() => {
+            userStore.isAuth = true
+        })
     }
 
     return (

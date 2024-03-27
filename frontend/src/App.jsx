@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Context } from './main'
+import { fetchAuthUser } from './api/userApi'
 
 import Login from './pages/Login'
 import Registration from './pages/Registration'
 import Main from './pages/Main'
-import Verify from './pages/Verify'
 import Profile from './pages/Profile'
 import ProfileWithId from './pages/ProfileWithId'
 import Settings from './pages/Settings'
@@ -18,7 +18,7 @@ export default observer(() => {
 
 	useEffect(() => {
 		if(userStore.isAuth) {
-			userStore.fetchAuthUser().then(user => setUser(user))
+			fetchAuthUser().then(user => setUser(user))
 		}
 	}, [])
 
@@ -47,7 +47,6 @@ export default observer(() => {
 				}
 
 				<Route path='/' element={<Main />} />
-				<Route path='/verify' element={<Verify />} />
 				<Route path='/profile/:id' element={<ProfileWithId />} />
 				<Route path='*' element={<Navigate to='/' />} />
 			</Routes>

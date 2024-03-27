@@ -1,18 +1,16 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { observer } from 'mobx-react-lite'
-import { Context } from '../main'
 import Block from '../components/Widget'
+import { changePassword } from '../api/userApi'
 
-export default observer(() => {
+export default () => {
     const [newPassword, setNewPassword] = useState('')
     const [oldPassword, setOldPassword] = useState('')
-    const { userStore } = useContext(Context)
     const navigate = useNavigate()
 
     const handleChangePassword = () => {
-        userStore.changePassword(oldPassword, newPassword)
-        .then(() => navigate('/profile')) 
+        changePassword(oldPassword, newPassword)
+        .then(() => navigate('/settings'))
     }
 
     return (
@@ -45,4 +43,4 @@ export default observer(() => {
             </button>
         </Block>
     )
-})
+}

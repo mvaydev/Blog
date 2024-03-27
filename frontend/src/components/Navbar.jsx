@@ -5,6 +5,7 @@ import Profile from '../assets/img/profile.svg'
 import { Link } from 'react-router-dom'
 import { Context } from '../main'
 import { useContext } from 'react'
+import { observer } from 'mobx-react-lite'
 
 const IconLink = ({ link, imgSrc }) => {
     return (
@@ -14,7 +15,7 @@ const IconLink = ({ link, imgSrc }) => {
     )
 }
 
-export default () => {
+export default observer(() => {
     const {userStore} = useContext(Context)
 
     return (
@@ -50,4 +51,4 @@ export default () => {
             </div>
         </div>
     )
-}
+})

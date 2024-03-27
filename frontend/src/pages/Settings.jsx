@@ -1,50 +1,66 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { Context } from '../main'
+import { 
+    changeEmail, 
+    fetchAuthUser, 
+    sendCode, 
+    changeName 
+} from '../api/userApi'
+
 import Navbar from '../components/Navbar'
 import ChangeFieldInput from '../components/ChangeFieldInput'
 import UserSettingsField from '../components/UserSettingsField'
 import Block from '../components/Block'
+import VerifyDialog from '../components/VerifyDialog'
+import { observer } from 'mobx-react-lite'
 
-export default () => {
+export default observer(() => {
     const { userStore } = useContext(Context)
     const [user, setUser] = useState(null)
+    const [newEmail, setNewEmail] = useState('')
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        userStore.fetchAuthUser()
-        .then(res => setUser(res))
-    }, [])
+    const handleChangeEmail = email => { 
+        setNewEmail(email)
+        sendCode(user.id, email)
+
+        userStore.isVerify = false
+        setIsDialogOpen(true)
+    }
+
+    const handleChangeName = (newName) => {
+        changeName(newName)
+        location.reload()
+    }
 
     const handleLogout = () => {
         userStore.logout()
         navigate('/login')
     }
 
-    const handleChangeEmail = (newEmail) => {
-        userStore.sendCode(user.id, newEmail)
-        userStore.id = user.id
-        
-        navigate('/verify', {
-            state: {
-                callbackName: userStore.changeEmail.name,
-                callbackParams: [
-                    user.email,
-                    newEmail
-                ]
-            }
-        })
-    }
+    useEffect(() => {
+        if(userStore.isVerify && isDialogOpen) {
+            changeEmail(user.email, newEmail)
+            setIsDialogOpen(false)
+            location.reload()
+        }
+    }, [userStore.isVerify])
 
-    const handleChangeName = (newName) => {
-        userStore.changeName(newName)
-        location.reload()
-    }
+    useEffect(() => {
+        fetchAuthUser()
+        .then(res => setUser(res))
+    }, [])
 
     return (
         <>
             <Navbar />
+
+            {
+                user && (isDialogOpen && <VerifyDialog id={user.id} />)
+            }
 
             <div className='-w-full flex justify-center mt-8'>
                 <Block>
@@ -98,4 +114,4 @@ export default () => {
             </div>
         </>
     )
-}
+})

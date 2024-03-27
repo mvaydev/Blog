@@ -1,20 +1,15 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router'
-import { Context } from '../main'
 import Navbar from '../components/Navbar'
 import Block from '../components/Block'
 import { getFullCreatedAt } from '../utils/helpers'
+import { fetchAuthUser } from '../api/userApi'
 
 export default () => {
-    const { userStore } = useContext(Context)
     const [user, setUser] = useState(null)
-    const navigate = useNavigate()
 
     useEffect(() => {
-        userStore.fetchAuthUser()
-        .then(res => setUser(res))
-        .catch(() => navigate('/'))
+        fetchAuthUser().then(res => setUser(res))
     }, [])
 
     return (
