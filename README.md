@@ -1,2 +1,2 @@
-# TwitterCloneApp
- Simple twitter-like web app on PERN stack
+# Blog
+ Simple blog web application on PERN stack. 
