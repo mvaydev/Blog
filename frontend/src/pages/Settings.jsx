@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { Context } from '../main'
+import { observer } from 'mobx-react-lite'
 import { 
     changeEmail, 
     fetchAuthUser, 
@@ -11,16 +12,18 @@ import {
 
 import Navbar from '../components/Navbar'
 import ChangeFieldInput from '../components/ChangeFieldInput'
-import UserSettingsField from '../components/UserSettingsField'
-import Block from '../components/Block'
+import Block from '../layout/Block'
 import VerifyDialog from '../components/VerifyDialog'
-import { observer } from 'mobx-react-lite'
+import PasswordDialog from '../components/PasswordDialog'
+import Button from '../components/Button'
 
 export default observer(() => {
     const { userStore } = useContext(Context)
     const [user, setUser] = useState(null)
     const [newEmail, setNewEmail] = useState('')
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [newPassword, setNewPassword] = useState('')
+    const [isVerifyDialogOpen, setIsVerifyDialogOpen] = useState(false)
+    const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false)
     const navigate = useNavigate()
 
     const handleChangeEmail = email => { 
@@ -28,12 +31,17 @@ export default observer(() => {
         sendCode(user.id, email)
 
         userStore.isVerify = false
-        setIsDialogOpen(true)
+        setIsVerifyDialogOpen(true)
     }
 
-    const handleChangeName = (newName) => {
+    const handleChangeName = newName => {
         changeName(newName)
         location.reload()
+    }
+
+    const handleChangePassword = password => {
+        setNewPassword(password)
+        setIsPasswordDialogOpen(true)
     }
 
     const handleLogout = () => {
@@ -42,9 +50,9 @@ export default observer(() => {
     }
 
     useEffect(() => {
-        if(userStore.isVerify && isDialogOpen) {
+        if(userStore.isVerify && isVerifyDialogOpen) {
             changeEmail(user.email, newEmail)
-            setIsDialogOpen(false)
+            setIsVerifyDialogOpen(false)
             location.reload()
         }
     }, [userStore.isVerify])
@@ -59,7 +67,11 @@ export default observer(() => {
             <Navbar />
 
             {
-                user && (isDialogOpen && <VerifyDialog id={user.id} />)
+                user && (isVerifyDialogOpen && <VerifyDialog id={user.id} />)
+            }
+
+            {
+                isPasswordDialogOpen && <PasswordDialog newPassword={newPassword} />
             }
 
             <div className='-w-full flex justify-center mt-8'>
@@ -69,43 +81,41 @@ export default observer(() => {
                             <div className='flex flex-col gap-8'>
                                 <h1 className='font-bold text-2xl'>Настройки</h1>
 
-                                <div className='flex flex-col w-full gap-4'>
-                                    <UserSettingsField label='Имя' valueToDisplay={user.name}>
+                                <div className='flex gap-6'>
+                                    <div className='flex flex-col gap-4 justify-around'>
+                                        <label>Имя: </label>
+                                        <label>Почта: </label>
+                                        <label>Пароль: </label>
+                                    </div>
+
+                                    <div className='flex flex-col w-full gap-4'>
                                         <ChangeFieldInput 
-                                            defaultValue=''
+                                            defaultValue={user.name}
                                             inputType='text'
                                             placeholder='Введите новое имя'
-                                            clickHandler={handleChangeName}
+                                            onClickHandler={handleChangeName}
                                         />
-                                    </UserSettingsField>
 
-                                    <UserSettingsField label='Почта' valueToDisplay={user.email}>
                                         <ChangeFieldInput 
-                                            defaultValue=''
+                                            defaultValue={user.email}
                                             inputType='email'
                                             placeholder='Введите новую почту'
-                                            clickHandler={handleChangeEmail}
+                                            onClickHandler={handleChangeEmail}
                                         />
-                                    </UserSettingsField>
 
-                                    <div className='flex w-full gap-4 justify-between'>
-                                        <p>Пароль:</p>
-                                        <div className='text-stone-500 w-full'>* * * * *</div>
-                                        <Link to='/change-password' className='text-rose-500'>Изменить</Link>
+                                        <ChangeFieldInput 
+                                            defaultValue=''
+                                            inputType='password'
+                                            placeholder='Новый пароль'
+                                            onClickHandler={handleChangePassword}
+                                        />
                                     </div>
                                 </div>
 
-                                <div className='flex gap-2'>
-                                    <button 
-                                        className='bg-rose-500 py-1.5 px-6 w-fit rounded-md text-white hover:bg-rose-600'
-                                        onClick={handleLogout}> 
-                                        Выйти
-                                    </button>
+                                <hr />
 
-                                    <button 
-                                        className='bg-stone-500 py-1.5 px-6 w-fit rounded-md text-white hover:bg-stone-600'>
-                                        Удалить аккаунт
-                                    </button>
+                                <div className='flex gap-2'>
+                                    <Button onClickHandler={handleLogout}>Выйти</Button>
                                 </div>
                             </div>
                         )
