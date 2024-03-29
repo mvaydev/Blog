@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Block from '../components/Block'
 import { getFullCreatedAt } from '../utils/helpers'
 import { fetchAuthUser } from '../api/userApi'
+import Navbar from '../components/Navbar'
+import Block from '../layout/Block'
 
 export default () => {
     const [user, setUser] = useState(null)

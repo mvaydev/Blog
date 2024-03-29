@@ -3,7 +3,6 @@ import { Context } from '../main'
 import Navbar from '../components/Navbar'
 import Post from '../components/Post'
 
-
 export default () => {
     const {postStore} = useContext(Context)
     const [posts, setPosts] = useState([])

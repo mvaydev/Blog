@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { Context } from '../main'
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
+import Button from './Button'
 
 const IconLink = ({ link, imgSrc }) => {
     return (
@@ -35,15 +36,11 @@ export default observer(() => {
                     ) : (
                         <div className='flex gap-3 items-center'>
                             <Link to='/login'>
-                                <button className='bg-rose-500 py-1 px-4 w-fit rounded-md text-white hover:bg-rose-600'>
-                                    Войти
-                                </button>
+                                <Button>Войти</Button>
                             </Link>
 
                             <Link to='/registration'>
-                                <button className='bg-stone-500 py-1 px-4 w-fit rounded-md text-white hover:bg-stone-600'>
-                                    Зарегистрироваться
-                                </button>
+                                <Button isSecondary>Зарегистрироваться</Button>
                             </Link>
                         </div>
                     )

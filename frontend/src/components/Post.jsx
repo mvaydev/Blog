@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Block from '../components/Block'
+import Block from '../layout/Block'
 import { getFullCreatedAt } from '../utils/helpers'
 import { fetchUser } from '../api/userApi'
 

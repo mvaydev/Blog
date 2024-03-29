@@ -4,7 +4,9 @@ import { observer } from 'mobx-react-lite'
 import { Context } from '../main'
 import { registrate, login } from '../api/userApi'
 import VerifyDialog from '../components/VerifyDialog'
-import Widget from '../components/Widget'
+import LoginPage from '../layout/LoginPage'
+import Button from '../components/Button'
+import TextInput from '../components/TextInput'
 
 export default observer(() => {
     const { userStore } = useContext(Context)
@@ -14,7 +16,8 @@ export default observer(() => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
     const handleRegistration = () => {
-        registrate(name, email, password).then(() => {    
+        registrate(name, email, password)
+        .then(() => {    
             userStore.isVerify = false
             setIsDialogOpen(true)
         })
@@ -31,50 +34,41 @@ export default observer(() => {
             {
                 isDialogOpen && <VerifyDialog />
             }
-            <Widget header='Регистрация'>
+            <LoginPage header='Регистрация'>
                 <div className='flex flex-col gap-1'>
-                    <label className='text-sm font-medium text-stone-800'>Имя</label>
-                    <input 
-                        type='text' 
-                        className='border border-stone-400 rounded-md text-base p-1'
-                        onChange={(e) => setName(e.target.value)}
+                    <TextInput 
+                        label='Имя'
                         value={name}
+                        onChangeHandler={setName}
                     />
                 </div>
 
                 <div className='flex flex-col gap-1'>
-                    <label className='text-sm font-medium text-stone-800'>Почта</label>
-                    <input 
-                        type='email' 
-                        className='border border-stone-400 rounded-md text-base p-1'
-                        onChange={(e) => setEmail(e.target.value)}
+                    <TextInput 
+                        label='Почта'
+                        type='email'
                         value={email}
+                        onChangeHandler={setEmail}
                     />
                 </div>
 
                 <div className='flex flex-col gap-1'>
-                    <label className='text-sm font-medium text-stone-800'>Пароль</label>
-                    <input 
-                        type='password' 
-                        className='border border-stone-400 rounded-md text-base p-1'
-                        onChange={(e) => setPassword(e.target.value)}
+                    <TextInput 
+                        label='Пароль'
+                        type='password'
                         value={password}
+                        onChangeHandler={setPassword}
                     />
                 </div>
 
-                <button 
-                    className='bg-rose-500 py-1.5 rounded-md text-white hover:bg-rose-600'
-                    onClick={handleRegistration}  
-                >
-                    Зарегистрироваться
-                </button>
+                <Button onClickHandler={handleRegistration} isFullWidth>Зарегистрироваться</Button>
 
                 <span className='text-center text-sm'>
                     Есть аккаунт? 
                     {' '}
                     <Link to="/login" className='text-rose-500'>Войти</Link>
                 </span>
-            </Widget>
+            </LoginPage>
         </>
     )
 })
