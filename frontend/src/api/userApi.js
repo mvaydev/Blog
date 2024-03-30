@@ -18,6 +18,7 @@ export async function login(email, password) {
     })
 
     localStorage.token = data
+    localStorage.isAuth = true
 }
 
 export async function verify(id, code) {
@@ -27,11 +28,13 @@ export async function verify(id, code) {
 }
 
 export async function registrate(name, email, password) {
-    host.post('/user', {
+    const user = await host.post('/user', {
         name,
         email,
         password
     })
+
+    return user.data
 }
 
 export async function changePassword(oldPassword, newPassword) {
@@ -48,6 +51,12 @@ export async function changeEmail(oldEmail, newEmail) {
 
 export async function changeName(newName) {
     authHost.put('/user/change-name/' + newName)
+}
+
+export async function deleteUser(password) {
+    authHost.delete('/user', {
+        data: {password}
+    })
 }
 
 export async function sendCode(id, email) {

@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Link } from 'react-router-dom'
 import { Context } from '../main'
 import { observer } from 'mobx-react-lite'
 import { 
     changeEmail, 
     fetchAuthUser, 
     sendCode, 
-    changeName 
+    changeName,
+    deleteUser,
+    changePassword
 } from '../api/userApi'
 
 import Navbar from '../components/Navbar'
@@ -20,10 +21,13 @@ import Button from '../components/Button'
 export default observer(() => {
     const { userStore } = useContext(Context)
     const [user, setUser] = useState(null)
+
     const [newEmail, setNewEmail] = useState('')
     const [newPassword, setNewPassword] = useState('')
+
     const [isVerifyDialogOpen, setIsVerifyDialogOpen] = useState(false)
-    const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false)
+    const [isChangePassword, setIsChangePassword] = useState(false)
+    const [isDeleteUser, setIsDeleteUser] = useState(false)
     const navigate = useNavigate()
 
     const handleChangeEmail = email => { 
@@ -41,12 +45,27 @@ export default observer(() => {
 
     const handleChangePassword = password => {
         setNewPassword(password)
-        setIsPasswordDialogOpen(true)
+        setIsChangePassword(true)
+    }
+
+    const handleDeleteUser = () => {
+        setIsDeleteUser(true)
     }
 
     const handleLogout = () => {
         userStore.logout()
         navigate('/login')
+    }
+
+    const onChangePassword = oldPassword => {
+        changePassword(oldPassword, newPassword)
+        location.reload()
+    }
+
+    const onDeleteUser = password => {
+        if(password) {
+            deleteUser(password).then(handleLogout)
+        }
     }
 
     useEffect(() => {
@@ -71,7 +90,11 @@ export default observer(() => {
             }
 
             {
-                isPasswordDialogOpen && <PasswordDialog newPassword={newPassword} />
+                isChangePassword && <PasswordDialog handlePassword={onChangePassword} />
+            }
+
+            {
+                isDeleteUser && <PasswordDialog handlePassword={onDeleteUser} />
             }
 
             <div className='-w-full flex justify-center mt-8'>
@@ -116,6 +139,7 @@ export default observer(() => {
 
                                 <div className='flex gap-2'>
                                     <Button onClickHandler={handleLogout}>Выйти</Button>
+                                    <Button onClickHandler={handleDeleteUser} isSecondary>Удалить аккаунт</Button>
                                 </div>
                             </div>
                         )

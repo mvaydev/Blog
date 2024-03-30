@@ -87,12 +87,13 @@ module.exports = {
 
     async verify(req, res, next) {
         try {
+            console.log(req.body.code)
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Validation errors'))
             }
-
-            userService.verify(req.body.id, req.body.code)
+        
+            await userService.verify(req.body.id, req.body.code)
             res.end()
         } catch(e) {
             next(e)
@@ -116,15 +117,13 @@ module.exports = {
     },
 
     async delete(req, res, next) {
-        const user = await userModel.findOne({
-            where: { id: req.user.id }
-        })
+        try {
+            const user = await userService.delete(req.user.id, req.body.password)
 
-        if(!user) return next(ApiError.NotFound())
-
-        await user.destroy()
-
-        res.json(user)
+            res.json(user)
+        } catch (e) {
+            next(e)
+        }
     },
 
     async changePassword(req, res, next) {
@@ -134,7 +133,7 @@ module.exports = {
                 return next(ApiError.BadRequest('Validation errors'))
             }
     
-            userService.changePassword(
+            await userService.changePassword(
                 req.user.id, 
                 req.body.oldPassword, 
                 req.body.newPassword

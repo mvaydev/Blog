@@ -1,17 +1,9 @@
 import { useState } from 'react'
-import { changePassword } from '../api/userApi'
 import Button from './Button'
 import TextInput from './TextInput'
 
 export default props => {
     const [oldPassword, setOldPassword] = useState('')
-
-    const handleChangePassword = () => {
-        if(oldPassword && props.newPassword) {
-            changePassword(oldPassword, props.newPassword)
-            location.reload()
-        }
-    }
 
     const handleCancel = () => {
         location.reload()
@@ -28,7 +20,7 @@ export default props => {
                     onChangeHandler={setOldPassword}
                 />
 
-                <Button onClickHandler={handleChangePassword} isFullWidth>Изменить пароль</Button>
+                <Button onClickHandler={() => props.handlePassword(oldPassword)} isFullWidth>Подтвердить</Button>
                 <Button onClickHandler={handleCancel} isFullWidth isSecondary>Отмена</Button>
             </div>
         </div>

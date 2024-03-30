@@ -133,5 +133,19 @@ module.exports = {
         user.update({
             name: newName
         })
+    },
+
+    async delete(id, password) {
+        const user = await userModel.findByPk(id)
+
+        if(!user) 
+            throw ApiError.Unauthorized()
+
+        const compareResult = await bcrypt.compare(password, user.password)
+
+        if(!compareResult) 
+            throw ApiError.BadRequest('Wrong password')
+
+        return await user.destroy()
     }
 }
