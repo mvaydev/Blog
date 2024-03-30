@@ -11,6 +11,7 @@ import Main from './pages/Main'
 import Profile from './pages/Profile'
 import ProfileWithId from './pages/ProfileWithId'
 import Settings from './pages/Settings'
+import Write from './pages/Write'
 
 export default observer(() => {
 	const { userStore } = useContext(Context)
@@ -31,6 +32,7 @@ export default observer(() => {
 						<>
 							<Route path='/profile' element={<Profile />} />
 							<Route path='/settings' element={<Settings />} />
+							<Route path='/write' element={<Write />} />
 							{
 								user && <Route 
 									path={'/profile/' + user.id} 

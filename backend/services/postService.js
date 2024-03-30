@@ -19,7 +19,9 @@ async function mapPost(post) {
 
 module.exports = {
     async getAll() {
-        const posts = await postModel.findAll()
+        const posts = await postModel.findAll({
+            order: [['createdAt', 'ASC']]
+        })
         const mappedPosts = []
 
         for(let post of posts) {

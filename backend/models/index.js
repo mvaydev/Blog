@@ -6,19 +6,19 @@ const likeModel = sequelize.define('like')
 
 const commentModel = sequelize.define('comment', {
     content: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(450),
         allowNull: false
     }
 })
 
 const postModel = sequelize.define('post', {
     title: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(250),
         allowNull: false,
     },
 
     content: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
 })
