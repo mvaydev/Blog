@@ -83,8 +83,6 @@ export default observer(() => {
 
     return (
         <>
-            <Navbar />
-
             {
                 user && (isVerifyDialogOpen && <VerifyDialog id={user.id} />)
             }
@@ -97,7 +95,7 @@ export default observer(() => {
                 isDeleteUser && <PasswordDialog handlePassword={onDeleteUser} />
             }
 
-            <div className='-w-full flex justify-center mt-8'>
+            <div className='w-full flex justify-center mt-8'>
                 <Block>
                     {
                         user && (

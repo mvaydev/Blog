@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite'
 import { Context } from './main'
 import { fetchAuthUser } from './api/userApi'
 
+import Navbar from './components/Navbar'
 import Login from './pages/Login'
 import Registration from './pages/Registration'
 import Main from './pages/Main'
@@ -23,6 +24,7 @@ export default observer(() => {
 
 	return (
 		<BrowserRouter>
+			<Navbar /> :
 			<Routes>
 				{
 					userStore.isAuth ? (
