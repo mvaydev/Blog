@@ -69,7 +69,7 @@ export default observer(() => {
     }
 
     useEffect(() => {
-        if(userStore.isVerify && isVerifyDialogOpen) {
+        if(userStore.isVerify) {
             changeEmail(user.email, newEmail)
             setIsVerifyDialogOpen(false)
             location.reload()

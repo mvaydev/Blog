@@ -56,8 +56,8 @@ module.exports = {
     async verify(id, code) {
         const user = await userModel.findByPk(id)
 
-        if(!user || !user.verificationCode)
-            throw ApiError.BadRequest('User has not verification code')
+        if(!user)
+            throw ApiError.NotFound()
 
         else if(user.verificationCode != code) 
             throw ApiError.BadRequest('Invalid verification code')
@@ -113,12 +113,6 @@ module.exports = {
         const user = await userModel.findOne({
             where: {email: oldEmail}
         })
-
-        if(!user || !user.verificationCode)
-            throw ApiError.BadRequest('User has not verification code')
-
-        else if(user.updatedAt + CODE_EXPIRATION_TIME > Date.now()) 
-            throw new ApiError(408, 'Code expiration time over')
 
         user.update({
             email: newEmail
