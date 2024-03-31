@@ -6,8 +6,18 @@ export async function fetchPosts() {
     return data
 }
 
+export async function fetchPost(id) {
+    const { data } = await host.get('/post/' + id)
+
+    return data
+}
+
 export async function create(title, content) {
     authHost.post('/post', {
         title, content
     })
+}
+
+export async function deletePost(id) {
+    authHost.delete('/post/' + id)
 }

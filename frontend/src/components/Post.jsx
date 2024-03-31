@@ -1,11 +1,16 @@
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { getFullCreatedAt } from '../utils/helpers'
+import { deletePost } from '../api/PostApi'
 
 import Block from '../layout/Block'
+import Dropdown from './Dropdown'
 
 import Like from '../assets/img/heart.svg'
 import Liked from '../assets/img/heart_filled.svg'
 import Comment from '../assets/img/comment.svg'
+import Bin from '../assets/img/bin.svg'
+import Edit from '../assets/img/edit.svg'
 
 function LikeButton(props) {
     const [likes, setLikes] = useState(props.likes)
@@ -30,7 +35,11 @@ function LikeButton(props) {
 }
 
 export default (props) => {
+    const navigate = useNavigate()
 
+    const handleDeletePost = () => {
+        if(confirm('Вы уверены?')) deletePost(props.id).then(() => navigate('/'))
+    }
 
     return (
         <Block>
@@ -50,6 +59,24 @@ export default (props) => {
                     </Link>
                 }
 
+                {
+                    (props.isBelongsToUser && props.isPostPage) && (
+                        <Dropdown>
+                            <button className='text-stone-500 hover:text-stone-600 flex gap-1.5 items-center'>
+                                <img src={Edit} />
+                                Изменить
+                            </button>
+                            <hr />
+                            <button 
+                                className='text-rose-500 hover:text-rose-600 flex gap-1.5 items-center'
+                                onClick={handleDeletePost}
+                            >
+                                <img src={Bin} />
+                                Удалить
+                            </button>
+                        </Dropdown>
+                    )
+                }
             </div>
 
             <p>{props.content}</p>
