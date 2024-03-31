@@ -12,6 +12,7 @@ import Profile from './pages/Profile'
 import ProfileWithId from './pages/ProfileWithId'
 import Settings from './pages/Settings'
 import Write from './pages/Write'
+import PostPage from './pages/PostPage'
 
 export default observer(() => {
 	const { userStore } = useContext(Context)
@@ -49,6 +50,7 @@ export default observer(() => {
 				}
 
 				<Route path='/' element={<Main />} />
+				<Route path='/post/:id' element={<PostPage />} />
 				<Route path='/profile/:id' element={<ProfileWithId />} />
 				<Route path='*' element={<Navigate to='/' />} />
 			</Routes>

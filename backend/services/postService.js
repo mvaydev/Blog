@@ -1,4 +1,4 @@
-const { postModel, commentModel, likeModel } = require('../models')
+const { postModel, commentModel, likeModel, userModel } = require('../models')
 const ApiError = require('../apiError')
 
 async function mapPost(post) {
@@ -10,17 +10,20 @@ async function mapPost(post) {
         where: { id: post.id }
     })
 
+    const user = await post.getUser()
+
     return {
         ...post.dataValues,
         likes,
-        comments
+        comments,
+        userName: user.name
     }
 }
 
 module.exports = {
     async getAll() {
         const posts = await postModel.findAll({
-            order: [['createdAt', 'ASC']]
+            order: [['createdAt', 'DESC']]
         })
         const mappedPosts = []
 

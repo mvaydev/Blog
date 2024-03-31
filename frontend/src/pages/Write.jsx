@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { create } from '../api/PostApi'
 import Block from '../layout/Block'
 import Button from '../components/Button'
@@ -6,13 +7,15 @@ import Button from '../components/Button'
 export default () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const navigate = useNavigate()
 
     const handlePublish = () => {
-        if(title && content) create(title, content)
+        // TODO: Add redirect to user's posts section
+        if(title && content) create(title, content).then(() => navigate('/'))
     }
 
     return (
-        <div className='w-full flex justify-center mt-8'>
+        <div className='w-full flex justify-center mt-4 mb-8 max-h-screen'>
             <Block>
                 <h1 className='text-xl font-bold'>Написать пост</h1>
                 <div className='flex gap-3 items-center'>

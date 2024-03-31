@@ -12,17 +12,8 @@ export default () => {
     return (
         <div className='flex flex-col gap-8 w-full items-center my-8'>
             {
-                posts && [...posts].reverse().map(post => 
-                    <Post 
-                        key={post.id} 
-                        userId={post.userId} 
-                        createdAt={post.createdAt} 
-                        title={post.title} 
-                        content={post.content} 
-                        likes={post.likes} 
-                        comments={post.comments} 
-                        id={post.id}
-                    />
+                posts && posts.map(post => 
+                    <Post {...post} key={post.id} />
                 )
             }
         </div>
