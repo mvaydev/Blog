@@ -1,12 +1,12 @@
 import { useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
-import { Context } from '../main'
-import { registrate, login } from '../api/userApi'
-import VerifyDialog from '../components/VerifyDialog'
-import LoginPage from '../layout/LoginPage'
-import Button from '../components/Button'
-import TextInput from '../components/TextInput'
+import { Context } from '../../main'
+import { registrate, login } from '../../api/userApi'
+import VerifyDialog from '../../components/VerifyDialog'
+import LoginPage from '../../layout/LoginPage'
+import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
 
 export default observer(() => {
     const { userStore } = useContext(Context)
@@ -17,7 +17,7 @@ export default observer(() => {
 
     const handleRegistration = () => {
         registrate(name, email, password)
-        .then(() => {    
+        .then(() => {
             userStore.isVerify = false
             setIsDialogOpen(true)
         })
@@ -36,7 +36,7 @@ export default observer(() => {
             }
             <LoginPage header='Регистрация'>
                 <div className='flex flex-col gap-1'>
-                    <TextInput 
+                    <TextInput
                         label='Имя'
                         value={name}
                         onChangeHandler={setName}
@@ -44,7 +44,7 @@ export default observer(() => {
                 </div>
 
                 <div className='flex flex-col gap-1'>
-                    <TextInput 
+                    <TextInput
                         label='Почта'
                         type='email'
                         value={email}
@@ -53,7 +53,7 @@ export default observer(() => {
                 </div>
 
                 <div className='flex flex-col gap-1'>
-                    <TextInput 
+                    <TextInput
                         label='Пароль'
                         type='password'
                         value={password}
@@ -64,7 +64,7 @@ export default observer(() => {
                 <Button onClickHandler={handleRegistration} isFullWidth>Зарегистрироваться</Button>
 
                 <span className='text-center text-sm'>
-                    Есть аккаунт? 
+                    Есть аккаунт?
                     {' '}
                     <Link to="/login" className='text-rose-500'>Войти</Link>
                 </span>

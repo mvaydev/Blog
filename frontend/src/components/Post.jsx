@@ -17,10 +17,10 @@ function LikeButton(props) {
     const [isLikesChanged, setIsLikesChanged] = useState(false)
 
     return (
-        <button 
+        <button
             className='rounded-full bg-stone-200 py-1.5 px-3 w-fit flex gap-1.5 hover:bg-stone-300'
             onClick={() => {
-                setIsLikesChanged(!isLikesChanged) 
+                setIsLikesChanged(!isLikesChanged)
                 !isLikesChanged ? setLikes(likes + 1) : setLikes(likes - 1)
             }}
         >
@@ -50,7 +50,7 @@ export default (props) => {
 
             <div className='w-full flex gap-4'>
                 {
-                    props.isPostPage ? 
+                    props.isPostPage ?
                     <h1 className='text-2xl font-bold w-full'>
                         {props.title}
                     </h1> :
@@ -67,7 +67,7 @@ export default (props) => {
                                 Изменить
                             </button>
                             <hr />
-                            <button 
+                            <button
                                 className='text-rose-500 hover:text-rose-600 flex gap-1.5 items-center'
                                 onClick={handleDeletePost}
                             >
@@ -84,7 +84,7 @@ export default (props) => {
             <div className='flex gap-2'>
                 <LikeButton likes={props.likes} />
 
-                <Link 
+                <Link
                     to={'/post/' + props.id + '/#comments'}
                     className='rounded-full bg-stone-200 py-1.5 px-3 w-fit flex gap-1.5 hover:bg-stone-300'
                 >

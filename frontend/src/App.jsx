@@ -5,12 +5,12 @@ import { Context } from './main'
 import { fetchAuthUser } from './api/userApi'
 
 import Navbar from './components/Navbar'
-import Login from './pages/Login'
-import Registration from './pages/Registration'
+import Login from './pages/Login/Login'
+import Registration from './pages/Login/Registration'
 import Main from './pages/Main'
-import Profile from './pages/Profile'
-import ProfileWithId from './pages/ProfileWithId'
-import Settings from './pages/Settings'
+import Profile from './pages/Profile/Profile'
+import ProfileWithId from './pages/Profile/ProfileWithId'
+import Settings from './pages/Profile/Settings'
 import Write from './pages/Write'
 import PostPage from './pages/PostPage'
 
@@ -35,8 +35,8 @@ export default observer(() => {
 							<Route path='/settings' element={<Settings />} />
 							<Route path='/write' element={<Write />} />
 							{
-								user && <Route 
-									path={'/profile/' + user.id} 
+								user && <Route
+									path={'/profile/' + user.id}
 									element={<Navigate to='/profile' replace />}
 								/>
 							}

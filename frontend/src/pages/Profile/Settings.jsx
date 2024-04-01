@@ -1,22 +1,22 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Context } from '../main'
+import { Context } from '../../main'
 import { observer } from 'mobx-react-lite'
-import { 
-    changeEmail, 
-    fetchAuthUser, 
-    sendCode, 
+import {
+    changeEmail,
+    fetchAuthUser,
+    sendCode,
     changeName,
     deleteUser,
     changePassword
-} from '../api/userApi'
+} from '../../api/userApi'
 
-import Navbar from '../components/Navbar'
-import ChangeFieldInput from '../components/ChangeFieldInput'
-import Block from '../layout/Block'
-import VerifyDialog from '../components/VerifyDialog'
-import PasswordDialog from '../components/PasswordDialog'
-import Button from '../components/Button'
+import Navbar from '../../components/Navbar'
+import ChangeFieldInput from '../../components/ChangeFieldInput'
+import Block from '../../layout/Block'
+import VerifyDialog from '../../components/VerifyDialog'
+import PasswordDialog from '../../components/PasswordDialog'
+import Button from '../../components/Button'
 
 export default observer(() => {
     const { userStore } = useContext(Context)
@@ -30,7 +30,7 @@ export default observer(() => {
     const [isDeleteUser, setIsDeleteUser] = useState(false)
     const navigate = useNavigate()
 
-    const handleChangeEmail = email => { 
+    const handleChangeEmail = email => {
         setNewEmail(email)
         sendCode(user.id, email)
 
@@ -110,21 +110,21 @@ export default observer(() => {
                                     </div>
 
                                     <div className='flex flex-col w-full gap-4'>
-                                        <ChangeFieldInput 
+                                        <ChangeFieldInput
                                             defaultValue={user.name}
                                             inputType='text'
                                             placeholder='Введите новое имя'
                                             onClickHandler={handleChangeName}
                                         />
 
-                                        <ChangeFieldInput 
+                                        <ChangeFieldInput
                                             defaultValue={user.email}
                                             inputType='email'
                                             placeholder='Введите новую почту'
                                             onClickHandler={handleChangeEmail}
                                         />
 
-                                        <ChangeFieldInput 
+                                        <ChangeFieldInput
                                             defaultValue=''
                                             inputType='password'
                                             placeholder='Новый пароль'

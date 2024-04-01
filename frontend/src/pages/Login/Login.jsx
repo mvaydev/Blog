@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
-import { Context } from '../main'
+import { Context } from '../../main'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
-import { login } from '../api/userApi'
-import LoginPage from '../layout/LoginPage'
-import Button from '../components/Button'
-import TextInput from '../components/TextInput'
+import { login } from '../../api/userApi'
+import LoginPage from '../../layout/LoginPage'
+import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
 
 export default observer(() => {
     const [email, setEmail] = useState('')
@@ -26,7 +26,7 @@ export default observer(() => {
     return (
         <LoginPage header='Вход'>
             <div className='flex flex-col gap-1'>
-                <TextInput 
+                <TextInput
                     label='Логин'
                     type='email'
                     value={email}
@@ -36,7 +36,7 @@ export default observer(() => {
             </div>
 
             <div className='flex flex-col gap-1'>
-                <TextInput 
+                <TextInput
                     label='Пароль'
                     type='password'
                     value={password}
@@ -52,7 +52,7 @@ export default observer(() => {
             <Button onClickHandler={handleLogin} isFullWidth>Войти</Button>
 
             <span className='text-center text-sm'>
-                Нет аккаунта? 
+                Нет аккаунта?
                 {' '}
                 <Link to="/registration" className='text-rose-500'>Зарегистрироваться</Link>
             </span>
