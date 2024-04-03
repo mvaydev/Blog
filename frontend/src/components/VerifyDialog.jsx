@@ -20,9 +20,9 @@ export default observer(props => {
     }
 
     return (
-        <div className='w-full h-screen bg-black bg-opacity-60 flex justify-center items-center fixed top-0 left-0'>
+        <div className='w-full h-screen bg-black bg-opacity-60 flex justify-center items-center fixed top-0 left-0 z-40'>
             <div className='p-4 rounded-md bg-white shadow-lg flex justify-center flex-col gap-5'>
-                <TextInput 
+                <TextInput
                     type='number'
                     value={code}
                     onChangeHandler={setCode}

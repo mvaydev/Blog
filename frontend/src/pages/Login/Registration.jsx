@@ -14,25 +14,29 @@ export default observer(() => {
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [userId, setUserId] = useState(0)
 
     const handleRegistration = () => {
         registrate(name, email, password)
-        .then(() => {
+        .then(res => {
             userStore.isVerify = false
             setIsDialogOpen(true)
+            setUserId(res.id)
         })
     }
 
     useEffect(() => {
-        if(userStore.isVerify && isDialogOpen) {
-            login(email, password)
+        if(userStore.isVerify) {
+            login(email, password).then(() => {
+                userStore.isAuth = true
+            })
         }
-    }, [])
+    }, [userStore.isVerify])
 
     return (
         <>
             {
-                isDialogOpen && <VerifyDialog />
+                isDialogOpen && <VerifyDialog id={userId} />
             }
             <LoginPage header='Регистрация'>
                 <div className='flex flex-col gap-1'>
