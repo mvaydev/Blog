@@ -15,3 +15,142 @@ body {
 * {
     font-family: 'Inter';
 }
+
+p {
+    @apply leading-8;
+}
+
+/* Headers */
+.md-h1, .md-h2, .md-h3 {
+    @apply font-semibold;
+    @apply my-2;
+}
+
+.md-h4, .md-h5, .md-h6 {
+    @apply font-semibold;
+    @apply my-1.5;
+}
+
+.md-h1 {
+    @apply text-3xl;
+}
+
+.md-h2 {
+    @apply text-2xl;
+}
+
+.md-h3 {
+    @apply text-xl;
+}
+
+.md-h4 {
+    @apply text-lg;
+}
+
+.md-h5 {
+    @apply text-base;
+}
+
+.md-h6 {
+    @apply text-sm;
+}
+
+/* Horizontal rule */
+.md-hr {
+    @apply my-5;
+}
+
+/* Lists */
+ul {
+    @apply list-disc;
+    @apply ml-4;
+    @apply list-inside;
+}
+
+ul ul {
+    list-style-type: revert;
+}
+
+ol {
+    @apply list-decimal;
+    @apply ml-8;
+    @apply list-outside;
+}
+
+/* Blockquote */
+blockquote {
+    @apply bg-gray-50;
+    @apply mt-2;
+    @apply pl-4;
+    @apply py-2;
+    @apply border-l-4;
+    @apply border-slate-300;
+    @apply rounded;
+}
+
+/* Code */
+pre {
+    @apply block;
+    @apply bg-neutral-100;
+    @apply p-3;
+    @apply rounded-md;
+    @apply border;
+    @apply border-zinc-300;
+}
+
+pre code {
+    @apply inline;
+    @apply border-none;
+}
+
+code {
+    @apply inline-block;
+    @apply w-fit;
+    @apply bg-neutral-100;
+    @apply px-1;
+    @apply leading-5;
+    @apply rounded;
+    @apply border;
+}
+
+/* Tables */
+table {
+    @apply border;
+    @apply border-stone-300;
+}
+
+tr:nth-child(even) {
+    @apply bg-neutral-50;
+}
+
+td {
+    @apply border;
+    @apply border-stone-300;
+    @apply p-1;
+}
+
+th {
+    @apply bg-neutral-100;
+    @apply border;
+    @apply border-stone-300;
+    @apply font-medium;
+    @apply p-1.5;
+}
+
+/* Links */
+.md-a {
+    @apply text-rose-500;
+}
+
+.md-a:hover {
+    @apply underline;
+    @apply underline-offset-2;
+}
+
+/* Images */
+.md-img {
+    @apply object-center;
+    @apply max-h-96;
+    @apply w-full;
+    @apply object-contain;
+}

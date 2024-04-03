@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { create } from '../api/PostApi'
 import Block from '../layout/Block'
 import Button from '../components/Button'
+import markdownit from 'markdown-it'
+import mdClass from 'markdown-it-class'
 
 function Editor(props) {
     return (
@@ -39,12 +41,40 @@ function Editor(props) {
                 focus:outline-none
                 focus:shadow-sm
                 focus:shadow-slate-300
-                focus:border-slate-500'
+                focus:border-slate-500
+                font-mono leading-tight'
                 placeholder='Поделитесь мыслями с миром...'
                 onChange={e => props.setContent(e.target.value)}
                 value={props.content}
             ></textarea>
         </>
+    )
+}
+
+function Preview(props) {
+    const mapping = {
+        h1: 'md-h1',
+        h2: 'md-h2',
+        h3: 'md-h3',
+        h4: 'md-h4',
+        h5: 'md-h5',
+        h6: 'md-h6',
+        a: 'md-link',
+        img: 'md-img',
+        hr: 'md-hr'
+    }
+
+    const md = markdownit( {
+        html: false,
+        typographer: true,
+        linkify: true,
+        breaks: true
+    }).use(mdClass, mapping)
+
+    const html = md.render(props.content)
+
+    return (
+        <div dangerouslySetInnerHTML={{__html: html}}></div>
     )
 }
 
@@ -108,7 +138,7 @@ export default () => {
     }
 
     return (
-        <div className='w-full flex justify-center my-4 max-h-screen'>
+        <div className='w-full flex justify-center my-4'>
 
             <Block>
                 <h1 className='text-xl font-bold'>Написать пост</h1>
@@ -116,7 +146,9 @@ export default () => {
                 <ChangeMode setIsEditorMode={setIsEditorMode} />
 
                 {
-                    isEditorMode && <Editor {...{title, setTitle, content, setContent}} />
+                    isEditorMode ?
+                    <Editor {...{title, setTitle, content, setContent}} /> :
+                    <Preview content={content} />
                 }
 
                 <Button onClickHandler={handlePublish}>Опубликовать</Button>
