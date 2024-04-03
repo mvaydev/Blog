@@ -44,7 +44,7 @@ export default (props) => {
     return (
         <Block>
             <div className='flex gap-1.5 items-center w-full'>
-                <Link to={'/profile/' + props.userId}>{props.userName}</Link>
+                <Link to={'/profile/' + props.userId} className='hover:underline'>{props.userName}</Link>
                 <p className='text-sm text-stone-500 '>{getFullCreatedAt(props.createdAt)}</p>
             </div>
 
@@ -54,7 +54,7 @@ export default (props) => {
                     <h1 className='text-2xl font-bold w-full'>
                         {props.title}
                     </h1> :
-                    <Link to={'/post/' + props.id} className='text-xl font-bold'>
+                    <Link to={'/post/' + props.id} className='text-xl font-bold hover:text-rose-500'>
                         {props.title}
                     </Link>
                 }

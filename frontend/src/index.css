@@ -138,11 +138,11 @@ th {
 }
 
 /* Links */
-.md-a {
+.md-link {
     @apply text-rose-500;
 }
 
-.md-a:hover {
+.md-link:hover {
     @apply underline;
     @apply underline-offset-2;
 }
