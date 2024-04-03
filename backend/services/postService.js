@@ -1,5 +1,7 @@
 const { postModel, commentModel, likeModel, userModel } = require('../models')
 const ApiError = require('../apiError')
+const markdownit  = require('markdown-it')
+const mdClass  = require('markdown-it-class')
 
 async function mapPost(post) {
     const comments = await commentModel.count(postModel, {
@@ -43,9 +45,31 @@ module.exports = {
     },
 
     async create(userId, req) {
+        const mapping = {
+            h1: 'md-h1',
+            h2: 'md-h2',
+            h3: 'md-h3',
+            h4: 'md-h4',
+            h5: 'md-h5',
+            h6: 'md-h6',
+            a: 'md-link',
+            img: 'md-img',
+            hr: 'md-hr'
+        }
+
+        const md = markdownit( {
+            html: false,
+            typographer: true,
+            linkify: true,
+            breaks: true
+        }).use(mdClass, mapping)
+
+        const html = md.render(req.content)
+
         const post = await postModel.create({
             title: req.title,
-            content: req.content,
+            contentHtml: html,
+            contentMarkdown: req.content,
             userId
         })
 

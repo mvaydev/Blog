@@ -79,7 +79,7 @@ export default (props) => {
                 }
             </div>
 
-            <p>{props.content}</p>
+            <div dangerouslySetInnerHTML={{__html: props.contentHtml}}></div>
 
             <div className='flex gap-2'>
                 <LikeButton likes={props.likes} />

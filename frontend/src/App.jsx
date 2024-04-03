@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Context } from './main'
-import { fetchAuthUser } from './api/userApi'
 
 import Navbar from './components/Navbar'
 import Login from './pages/Login/Login'
@@ -16,17 +15,17 @@ import PostPage from './pages/PostPage'
 
 export default observer(() => {
 	const { userStore } = useContext(Context)
-	const [user, setUser] = useState(null)
+	const [userId, setUserId] = useState(null)
 
 	useEffect(() => {
 		if(userStore.isAuth) {
-			fetchAuthUser().then(user => setUser(user))
+			userStore.getId().then(res => setUserId(res))
 		}
 	}, [])
 
 	return (
 		<BrowserRouter>
-			<Navbar /> :
+			<Navbar />
 			<Routes>
 				{
 					userStore.isAuth ? (
@@ -35,8 +34,8 @@ export default observer(() => {
 							<Route path='/settings' element={<Settings />} />
 							<Route path='/write' element={<Write />} />
 							{
-								user && <Route
-									path={'/profile/' + user.id}
+								userId && <Route
+									path={'/profile/' + userId}
 									element={<Navigate to='/profile' replace />}
 								/>
 							}

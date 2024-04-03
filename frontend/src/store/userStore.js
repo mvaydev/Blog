@@ -1,11 +1,10 @@
 import { makeAutoObservable } from 'mobx'
-import axios from 'axios'
-import { USER_API_URL } from '../utils/consts' 
 
 export default class UserStore {
     _token = ''
     _isAuth = false
     _isVerify = false
+    _id
 
     constructor(){
         makeAutoObservable(this)
@@ -47,10 +46,17 @@ export default class UserStore {
         return this._isVerify
     }
 
+    async getId() {
+        if(!this._id )
+            this._id = await this.fetchAuthUser().id
+
+        return this._id
+    }
+
     logout() {
         delete localStorage.token
         delete localStorage.isAuth
         this.token = null
         this.isAuth = false
-    } 
+    }
 }

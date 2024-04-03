@@ -17,7 +17,12 @@ const postModel = sequelize.define('post', {
         allowNull: false,
     },
 
-    content: {
+    contentHtml: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+
+    contentMarkdown: {
         type: DataTypes.TEXT,
         allowNull: false,
     },
