@@ -1,5 +1,5 @@
 import Logo from '../assets/img/logo.svg'
-import Heart from '../assets/img/heart_filled.svg'
+import Settings from '../assets/img/settings.svg'
 import Write from '../assets/img/write.svg'
 import Profile from '../assets/img/profile.svg'
 import { Link } from 'react-router-dom'
@@ -30,7 +30,7 @@ export default observer(() => {
                     userStore.isAuth ? (
                         <div className='flex gap-6 items-center'>
                             <IconLink link='/write' imgSrc={Write} />
-                            <IconLink link='/likes' imgSrc={Heart} />
+                            <IconLink link='/settings' imgSrc={Settings} />
                             <IconLink link='/profile' imgSrc={Profile} />
                         </div>
                     ) : (

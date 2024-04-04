@@ -12,7 +12,7 @@ export default () => {
     return (
         <div className='flex flex-col gap-8 w-full items-center my-8'>
             {
-                posts && posts.map(post => 
+                posts && posts.map(post =>
                     <Post {...post} key={post.id} />
                 )
             }

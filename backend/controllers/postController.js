@@ -5,7 +5,7 @@ const ApiError = require('../apiError')
 module.exports = {
     async getAll(req, res, next) {
         try {
-            const posts = await postService.getAll()
+            const posts = await postService.getAll(req.query)
 
             res.json(posts)
         } catch (e) {

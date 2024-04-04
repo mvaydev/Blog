@@ -8,10 +8,10 @@ import Login from './pages/Login/Login'
 import Registration from './pages/Login/Registration'
 import Main from './pages/Main'
 import Profile from './pages/Profile/Profile'
-import ProfileWithId from './pages/Profile/ProfileWithId'
 import Settings from './pages/Profile/Settings'
 import Write from './pages/Write'
 import PostPage from './pages/PostPage'
+import { fetchAuthUser } from './api/userApi'
 
 export default observer(() => {
 	const { userStore } = useContext(Context)
@@ -19,7 +19,7 @@ export default observer(() => {
 
 	useEffect(() => {
 		if(userStore.isAuth) {
-			userStore.getId().then(res => setUserId(res))
+			fetchAuthUser().then(res => setUserId(res.id))
 		}
 	}, [])
 
@@ -50,7 +50,7 @@ export default observer(() => {
 
 				<Route path='/' element={<Main />} />
 				<Route path='/post/:id' element={<PostPage />} />
-				<Route path='/profile/:id' element={<ProfileWithId />} />
+				<Route path='/profile/:id' element={<Profile />} />
 				<Route path='*' element={<Navigate to='/' />} />
 			</Routes>
 		</BrowserRouter>

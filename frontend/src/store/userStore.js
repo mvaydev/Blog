@@ -4,7 +4,6 @@ export default class UserStore {
     _token = ''
     _isAuth = false
     _isVerify = false
-    _id
 
     constructor(){
         makeAutoObservable(this)
@@ -44,13 +43,6 @@ export default class UserStore {
 
     get isVerify() {
         return this._isVerify
-    }
-
-    async getId() {
-        if(!this._id )
-            this._id = await this.fetchAuthUser().id
-
-        return this._id
     }
 
     logout() {

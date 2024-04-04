@@ -19,7 +19,7 @@ export default () => {
                 setIsBelongsToUser(resPost.userId === resUser.id)
                 setIsUserFetched(true)
             })
-        })      
+        })
     }, [])
 
     return (

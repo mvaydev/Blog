@@ -6,6 +6,14 @@ export async function fetchPosts() {
     return data
 }
 
+export async function fetchUsersPosts(userId) {
+    const { data } = await host.get('/post', {
+        params: { userId }
+    })
+
+    return data
+}
+
 export async function fetchPost(id) {
     const { data } = await host.get('/post/' + id)
 
