@@ -45,7 +45,7 @@ export default () => {
                 }
             </Block>
 
-            <div className='flex flex-col gap-6'>
+            <div className='flex flex-col gap-6 w-full items-center'>
                 <Block>
                     <h2 className='font-bold text-2xl'>
                         Публикации
