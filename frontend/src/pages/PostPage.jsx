@@ -74,6 +74,7 @@ export default () => {
                         }
                     </div>
 
+                    {post.introduction}
                     <div className='flex flex-col gap-2' dangerouslySetInnerHTML={{__html: post.contentHtml}}></div>
 
                     <div className='flex gap-2'>

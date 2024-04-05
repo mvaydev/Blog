@@ -17,6 +17,7 @@ export default (props) => {
                 {props.title}
             </Link>
 
+            <div>{props.introduction}</div>
 
             <Link  to={'/post/' + props.id} className='w-fit'>
                 <Button>Читать далее...</Button>

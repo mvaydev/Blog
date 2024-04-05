@@ -70,6 +70,7 @@ module.exports = {
 
         const post = await postModel.create({
             title: req.title,
+            introduction: req.introduction,
             contentHtml: html,
             contentMarkdown: req.content,
             userId

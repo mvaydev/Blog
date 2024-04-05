@@ -20,9 +20,9 @@ export async function fetchPost(id) {
     return data
 }
 
-export async function create(title, content) {
+export async function create(title, content, introduction) {
     authHost.post('/post', {
-        title, content
+        title, content, introduction
     })
 }
 
