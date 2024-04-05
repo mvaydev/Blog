@@ -55,10 +55,13 @@ export default () => {
                         {
                             isBelongsToUser && (
                                 <Dropdown>
-                                    <button className='text-stone-500 hover:text-stone-600 flex gap-1.5 items-center'>
+                                    <Link
+                                        to={'/edit/' + post.id}
+                                        className='text-stone-500 hover:text-stone-600 flex gap-1.5 items-center'
+                                    >
                                         <img src={Edit} />
                                         Изменить
-                                    </button>
+                                    </Link>
 
                                     <hr />
 

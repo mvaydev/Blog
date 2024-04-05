@@ -43,6 +43,16 @@ module.exports = {
         }
     },
 
+    async update(req, res, next) {
+        try {
+            const post = await postService.update(req.params.id, req.body)
+
+            res.json(post)
+        } catch (e) {
+            next(e)
+        }
+    },
+
     async delete(req, res, next) {
         try {
             const errors = validationResult(req)

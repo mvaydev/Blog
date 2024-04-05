@@ -4,7 +4,7 @@ const auth = require('../middleware/authMiddleware')
 const { body, param } = require('express-validator')
 
 router.get(
-    '/',  
+    '/',
     postController.getAll
 )
 
@@ -15,9 +15,16 @@ router.get(
 )
 
 router.post(
-    '/', 
-    auth, 
+    '/',
+    auth,
     postController.create
+)
+
+router.put(
+    '/:id',
+    auth,
+    param('id').isInt(),
+    postController.update
 )
 
 router.delete(

@@ -26,6 +26,12 @@ export async function create(title, content, introduction) {
     })
 }
 
+export async function edit(id, title, content, introduction) {
+    authHost.put('/post/' + id, {
+        title, content, introduction
+    })
+}
+
 export async function deletePost(id) {
     authHost.delete('/post/' + id)
 }

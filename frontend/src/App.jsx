@@ -9,7 +9,7 @@ import Registration from './pages/Login/Registration'
 import Main from './pages/Main'
 import Profile from './pages/Profile/Profile'
 import Settings from './pages/Profile/Settings'
-import Write from './pages/Write'
+import Write from './pages/Write/Write'
 import PostPage from './pages/PostPage'
 import { fetchAuthUser } from './api/userApi'
 
@@ -33,6 +33,7 @@ export default observer(() => {
 							<Route path='/profile' element={<Profile />} />
 							<Route path='/settings' element={<Settings />} />
 							<Route path='/write' element={<Write />} />
+							<Route path='/edit/:id' element={<Write />} />
 							{
 								userId && <Route
 									path={'/profile/' + userId}

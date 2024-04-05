@@ -3,6 +3,29 @@ const ApiError = require('../apiError')
 const markdownit  = require('markdown-it')
 const mdClass  = require('markdown-it-class')
 
+function renderMdToHtml(markdown) {
+    const mapping = {
+        h1: 'md-h1',
+        h2: 'md-h2',
+        h3: 'md-h3',
+        h4: 'md-h4',
+        h5: 'md-h5',
+        h6: 'md-h6',
+        a: 'md-link',
+        img: 'md-img',
+        hr: 'md-hr'
+    }
+
+    const md = markdownit( {
+        html: false,
+        typographer: true,
+        linkify: true,
+        breaks: true
+    }).use(mdClass, mapping)
+
+    return md.render(markdown)
+}
+
 async function mapPost(post) {
     const comments = await commentModel.count(postModel, {
         where: { id: post.id }
@@ -47,26 +70,7 @@ module.exports = {
     },
 
     async create(userId, req) {
-        const mapping = {
-            h1: 'md-h1',
-            h2: 'md-h2',
-            h3: 'md-h3',
-            h4: 'md-h4',
-            h5: 'md-h5',
-            h6: 'md-h6',
-            a: 'md-link',
-            img: 'md-img',
-            hr: 'md-hr'
-        }
-
-        const md = markdownit( {
-            html: false,
-            typographer: true,
-            linkify: true,
-            breaks: true
-        }).use(mdClass, mapping)
-
-        const html = md.render(req.content)
+        const html = renderMdToHtml(req.content)
 
         const post = await postModel.create({
             title: req.title,
@@ -74,6 +78,28 @@ module.exports = {
             contentHtml: html,
             contentMarkdown: req.content,
             userId
+        })
+
+        return post
+    },
+
+    async update(id, req) {
+        const post = await postModel.findByPk(id)
+
+        if(!post) throw ApiError.NotFound()
+        if(
+            post.title === req.title &&
+            post.content === req.content &&
+            post.introduction === req.introduction
+        ) throw ApiError.BadRequest('No changes')
+
+        const html = renderMdToHtml(req.content)
+
+        await post.update({
+            title: req.title,
+            introduction: req.introduction,
+            contentHtml: html,
+            contentMarkdown: req.content
         })
 
         return post
