@@ -11,13 +11,13 @@ module.exports = {
         const MIN = 0
         const MAX = 9
         const LENGTH = 6
-    
+
         let code = ''
-    
+
         for(let i = 0; i < LENGTH; i++) {
             code += Math.floor(Math.random() * (MAX - MIN)) + MIN;
         }
-    
+
         return code;
     },
 
@@ -59,10 +59,10 @@ module.exports = {
         if(!user)
             throw ApiError.NotFound()
 
-        else if(user.verificationCode != code) 
+        else if(user.verificationCode != code)
             throw ApiError.BadRequest('Invalid verification code')
 
-        else if(user.updatedAt + CODE_EXPIRATION_TIME > Date.now()) 
+        else if(user.updatedAt + CODE_EXPIRATION_TIME > Date.now())
             throw new ApiError(408, 'Code expiration time over')
 
         user.update({
@@ -76,7 +76,7 @@ module.exports = {
             where: { email }
         })
 
-        if(!user) 
+        if(!user)
             throw ApiError.BadRequest('Invalid Email')
 
         if(!user.isVerify)
@@ -84,7 +84,7 @@ module.exports = {
 
         const compareResult = await bcrypt.compare(password, user.password)
 
-        if(!compareResult) 
+        if(!compareResult)
             throw ApiError.BadRequest('Wrong password')
 
         const token = await tokenService.generateToken({
@@ -114,6 +114,13 @@ module.exports = {
             where: {email: oldEmail}
         })
 
+        const candidate = await userModel.findOne({
+            where: {email: newEmail}
+        })
+
+        if(oldEmail === newEmail) throw ApiError.BadRequest('No changes')
+        if(candidate) throw ApiError.BadRequest('User with this email already exists')
+
         user.update({
             email: newEmail
         })
@@ -132,12 +139,12 @@ module.exports = {
     async delete(id, password) {
         const user = await userModel.findByPk(id)
 
-        if(!user) 
+        if(!user)
             throw ApiError.Unauthorized()
 
         const compareResult = await bcrypt.compare(password, user.password)
 
-        if(!compareResult) 
+        if(!compareResult)
             throw ApiError.BadRequest('Wrong password')
 
         return await user.destroy()
