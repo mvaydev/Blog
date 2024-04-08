@@ -11,7 +11,6 @@ import {
     changePassword
 } from '../../api/userApi'
 
-import Navbar from '../../components/Navbar'
 import ChangeFieldInput from '../../components/ChangeFieldInput'
 import Block from '../../layout/Block'
 import VerifyDialog from '../../components/VerifyDialog'

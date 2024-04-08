@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { fetchPost, deletePost } from '../api/PostApi'
 import { fetchAuthUser } from '../api/userApi'
 import { useParams } from 'react-router'
 import { useNavigate, Link } from 'react-router-dom'
 import { getFullCreatedAt } from '../utils/helpers'
+import { Context } from '../main'
 
 import Block from '../layout/Block'
 import Dropdown from '../components/Dropdown'
@@ -16,6 +17,7 @@ import Edit from '../assets/img/edit.svg'
 export default () => {
     const [post, setPost] = useState(null)
     const [isBelongsToUser, setIsBelongsToUser] = useState(false)
+    const { userStore } = useContext(Context)
     const { id } = useParams()
     const navigate = useNavigate()
 
@@ -26,11 +28,13 @@ export default () => {
 
     const fetchPostData = async () => {
         try {
-            const postData = await fetchPost(id)
-            const userData = await fetchAuthUser()
-
-            setIsBelongsToUser(userData.id === postData.userId)
+            const postData = await fetchPost(id, userStore.isAuth)
             setPost(postData)
+
+            if(userStore.isAuth) {
+                const userData = await fetchAuthUser()
+                setIsBelongsToUser(userData.id === postData.userId)
+            }
         } catch {
             navigate('/')
         }
@@ -81,7 +85,7 @@ export default () => {
                     <div className='flex flex-col gap-2' dangerouslySetInnerHTML={{__html: post.contentHtml}}></div>
 
                     <div className='flex gap-2'>
-                        <LikeButton likes={post.likes} />
+                        <LikeButton likes={post.likes} isLiked={post.isLiked} postId={post.id} />
 
                         <div className='rounded-full bg-stone-200 py-1.5 px-3 w-fit flex gap-1.5'>
                             <span className='text-stone-500'>{post.comments}</span>

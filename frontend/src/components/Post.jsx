@@ -24,7 +24,7 @@ export default (props) => {
             </Link>
 
             <div className='flex gap-2'>
-                <LikeButton likes={props.likes} />
+                <LikeButton likes={props.likes} isLiked={props.isLiked} postId={props.id} />
 
                 <Link
                     to={'/post/' + props.id + '/#comments'}

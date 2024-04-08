@@ -1,12 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { fetchPosts } from '../api/PostApi'
+import { Context } from '../main'
 import Post from '../components/Post'
 
 export default () => {
     const [posts, setPosts] = useState([])
+    const { userStore } = useContext(Context)
+
+    const fetchPostsData = async () => {
+        const postsData = await fetchPosts(userStore.isAuth)
+        setPosts(postsData)
+    }
 
     useEffect(() => {
-        fetchPosts().then(res => setPosts(res))
+        fetchPostsData()
     }, [])
 
     return (

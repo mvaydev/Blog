@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getFullCreatedAt } from '../../utils/helpers'
 import { fetchAuthUser } from '../../api/userApi'
 import { fetchUsersPosts } from '../../api/PostApi'
+
 import Block from '../../layout/Block'
 import Post from '../../components/Post'
 
@@ -13,6 +14,7 @@ export default () => {
 
     const fetchPosts = async () => {
         let userData = null
+        let isAuth = !paramUserId
 
         userData = !paramUserId ?
             await fetchAuthUser() :
@@ -21,7 +23,7 @@ export default () => {
         setUser(userData)
 
         if(userData)
-            setPosts(await fetchUsersPosts(userData.id))
+            setPosts(await fetchUsersPosts(userData.id, isAuth))
     }
 
     useEffect(() => {
