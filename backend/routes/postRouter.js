@@ -1,7 +1,7 @@
 const postController = require('../controllers/postController')
 const router = new require('express').Router()
 const auth = require('../middleware/authMiddleware')
-const { body, param } = require('express-validator')
+const { param } = require('express-validator')
 
 router.get(
     '/',
@@ -32,6 +32,20 @@ router.delete(
     auth,
     param('id').isInt(),
     postController.delete
+)
+
+router.post(
+    '/like/:id',
+    auth,
+    param('id').isInt(),
+    postController.like
+)
+
+router.post(
+    '/unlike/:id',
+    auth,
+    param('id').isInt(),
+    postController.unlike
 )
 
 module.exports = router

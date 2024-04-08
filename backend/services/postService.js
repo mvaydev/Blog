@@ -1,4 +1,4 @@
-const { postModel, commentModel, likeModel, userModel } = require('../models')
+const { postModel, commentModel, likeModel } = require('../models')
 const ApiError = require('../apiError')
 const markdownit  = require('markdown-it')
 const mdClass  = require('markdown-it-class')
@@ -26,27 +26,36 @@ function renderMdToHtml(markdown) {
     return md.render(markdown)
 }
 
-async function mapPost(post) {
+async function mapPost(post, userId = null) {
     const comments = await commentModel.count(postModel, {
         where: { id: post.id }
     })
 
-    const likes = await likeModel.count(postModel, {
-        where: { id: post.id }
+    const likes = await likeModel.count({
+        where: { postId: post.id }
     })
 
     const user = await post.getUser()
-
-    return {
+    const mappedPost = {
         ...post.dataValues,
         likes,
         comments,
         userName: user.name
     }
+
+    if(userId) {
+        const like = await likeModel.findOne({
+            where: { userId, postId: post.id }
+        })
+
+        mappedPost.isLiked = Boolean(like)
+    }
+
+    return mappedPost
 }
 
 module.exports = {
-    async getAll(query) {
+    async getAll(query, userId = null) {
         const posts = await postModel.findAll({
             order: [['createdAt', 'DESC']],
             where: {...query}
@@ -55,18 +64,18 @@ module.exports = {
         const mappedPosts = []
 
         for(let post of posts) {
-            mappedPosts.push(await mapPost(post))
+            mappedPosts.push(await mapPost(post, userId))
         }
 
         return mappedPosts
     },
 
-    async get(id) {
+    async get(id, userId = null) {
         const post = await postModel.findByPk(id)
 
         if(!post) throw ApiError.NotFound()
 
-        return await mapPost(post)
+        return await mapPost(post, userId)
     },
 
     async create(userId, req) {
@@ -113,5 +122,31 @@ module.exports = {
         await post.destroy()
 
         return post
+    },
+
+    async like(postId, userId) {
+        const post = await postModel.findByPk(postId)
+        const likeCandidate = await likeModel.findOne({
+            where: { postId, userId }
+        })
+
+        if(!post) throw ApiError.NotFound()
+        if(likeCandidate) throw ApiError.BadRequest('Post has been liked')
+
+        await likeModel.create({ postId, userId })
+    },
+
+    async unlike(postId, userId) {
+        const post = await postModel.findByPk(postId)
+
+        if(!post) throw ApiError.NotFound()
+
+        const like = await likeModel.findOne({
+            where: { postId, userId }
+        })
+
+        if(!like) throw ApiError.BadRequest('Post doesnt have like')
+
+        await like.destroy()
     }
 }
