@@ -15,8 +15,8 @@ module.exports = {
             if(token) userId = tokenService.verifyToken(token)?.id
 
             posts = userId ?
-                await postService.getAll(req.params.id, userId) :
-                await postService.getAll(req.params.id)
+                await postService.getAll(req.query, userId) :
+                await postService.getAll(req.query)
 
             res.json(posts)
         } catch (e) {

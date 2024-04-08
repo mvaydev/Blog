@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getFullCreatedAt } from '../../utils/helpers'
-import { fetchAuthUser } from '../../api/userApi'
+import { fetchAuthUser, fetchUser } from '../../api/userApi'
 import { fetchUsersPosts } from '../../api/PostApi'
 
 import Block from '../../layout/Block'
@@ -13,17 +13,14 @@ export default () => {
     const paramUserId = useParams().id
 
     const fetchPosts = async () => {
-        let userData = null
-        let isAuth = !paramUserId
-
-        userData = !paramUserId ?
+        const isAuth = !paramUserId
+        const userData = isAuth ?
             await fetchAuthUser() :
             await fetchUser(paramUserId)
 
         setUser(userData)
 
-        if(userData)
-            setPosts(await fetchUsersPosts(userData.id, isAuth))
+        if(userData) setPosts(await fetchUsersPosts(userData.id, isAuth))
     }
 
     useEffect(() => {
