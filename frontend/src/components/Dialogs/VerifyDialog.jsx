@@ -1,9 +1,9 @@
 import { useState, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import { Context } from '../main'
-import { verify } from '../api/userApi'
-import Button from './Button'
-import TextInput from './TextInput'
+import { Context } from '../../main'
+import { verify } from '../../api/userApi'
+import Button from '../Inputs/Button'
+import TextInput from '../Inputs/TextInput'
 
 export default observer(props => {
     const [code, setCode] = useState('')

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { like, unlike } from '../api/PostApi'
+import { like, unlike } from '../../api/PostApi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default props => {

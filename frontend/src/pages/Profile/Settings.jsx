@@ -11,11 +11,11 @@ import {
     changePassword
 } from '../../api/userApi'
 
-import ChangeFieldInput from '../../components/ChangeFieldInput'
+import ChangeFieldInput from '../../components/Inputs/ChangeFieldInput'
 import Block from '../../layout/Block'
-import VerifyDialog from '../../components/VerifyDialog'
-import PasswordDialog from '../../components/PasswordDialog'
-import Button from '../../components/Button'
+import VerifyDialog from '../../components/Dialogs/VerifyDialog'
+import PasswordDialog from '../../components/Dialogs/PasswordDialog'
+import Button from '../../components/Inputs/Button'
 
 export default observer(() => {
     const { userStore } = useContext(Context)

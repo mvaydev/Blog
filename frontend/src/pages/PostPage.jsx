@@ -8,7 +8,7 @@ import { Context } from '../main'
 
 import Block from '../layout/Block'
 import Dropdown from '../components/Dropdown'
-import LikeButton from '../components/LikeButton'
+import LikeButton from '../components/Inputs/LikeButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default () => {
@@ -43,10 +43,10 @@ export default () => {
 
     return (
         post && (
-            <div className='w-full flex justify-center mt-8'>
+            <div className='w-full flex flex-col items-center gap-8 my-8'>
                 <Block>
                     <div className='flex gap-1.5 items-center w-full'>
-                        <Link to={'/profile/' + post.userId} className='hover:underline'>{post.userName}</Link>
+                        <Link to={'/profile/' + post.userId} className='font-medium hover:text-rose-500'>{post.userName}</Link>
                         <p className='text-sm text-stone-500 '>{getFullCreatedAt(post.createdAt)}</p>
                     </div>
 
@@ -90,6 +90,7 @@ export default () => {
                         </div>
                     </div>
                 </Block>
+
             </div>
         )
     )

@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import { getFullCreatedAt } from '../utils/helpers'
 import Block from '../layout/Block'
-import LikeButton from './LikeButton'
-import Button from './Button'
+import LikeButton from './Inputs/LikeButton'
+import Button from './Inputs/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default (props) => {

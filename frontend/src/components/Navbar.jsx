@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Context } from '../main'
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import Button from './Button'
+import Button from './Inputs/Button'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Logo from '../assets/img/logo.svg'

@@ -7,7 +7,7 @@ export default (props) => {
 
     return (
         <div className='flex gap-1.5 w-full justify-between'>
-            <TextInput 
+            <TextInput
                 type={props.inputType}
                 placeholder={props.placeholder}
                 value={value}

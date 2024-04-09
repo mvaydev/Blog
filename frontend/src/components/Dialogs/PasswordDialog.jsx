@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Button from './Button'
-import TextInput from './TextInput'
+import Button from '../Inputs/Button'
+import TextInput from '../Inputs/TextInput'
 
 export default props => {
     const [oldPassword, setOldPassword] = useState('')
@@ -14,7 +14,7 @@ export default props => {
             <div className='p-4 rounded-md bg-white shadow-lg flex justify-center flex-col gap-5'>
                 <h2 className='text-xl font-bold w-full text-center'>Подтвердите пароль</h2>
 
-                <TextInput 
+                <TextInput
                     type='password'
                     value={oldPassword}
                     onChangeHandler={setOldPassword}

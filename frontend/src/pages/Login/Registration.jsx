@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../../main'
 import { registrate, login } from '../../api/userApi'
-import VerifyDialog from '../../components/VerifyDialog'
+import VerifyDialog from '../../components/Dialogs/VerifyDialog'
 import LoginPage from '../../layout/LoginPage'
-import Button from '../../components/Button'
-import TextInput from '../../components/TextInput'
+import Button from '../../components/Inputs/Button'
+import TextInput from '../../components/Inputs/TextInput'
 
 export default observer(() => {
     const { userStore } = useContext(Context)

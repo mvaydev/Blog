@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { create, fetchPost, edit } from '../../api/PostApi'
 
 import Block from '../../layout/Block'
-import Button from '../../components/Button'
+import Button from '../../components/Inputs/Button'
 
 import ChangeMode from './ChangeMode'
 import Editor from './Editor'

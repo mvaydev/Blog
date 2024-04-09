@@ -4,8 +4,8 @@ import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import { login } from '../../api/userApi'
 import LoginPage from '../../layout/LoginPage'
-import Button from '../../components/Button'
-import TextInput from '../../components/TextInput'
+import Button from '../../components/Inputs/Button'
+import TextInput from '../../components/Inputs/TextInput'
 
 export default observer(() => {
     const [email, setEmail] = useState('')
