@@ -23,7 +23,6 @@ async function start() {
         app.listen(process.env.PORT || 5000)
 
         sequelize.authenticate()
-        sequelize.sync()
 
     } catch(e) {
         console.error(e)

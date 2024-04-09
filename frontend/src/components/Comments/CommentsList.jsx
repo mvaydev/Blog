@@ -15,12 +15,13 @@ export default ({ postId }) => {
             {
                 comments && (
                     <Block>
-                        <h2 className='font-bold text-2xl' id='comments'>
+                        <h2 className='font-bold text-xl inline-flex gap-2' id='comments'>
                             Комментарии
                             <span className='text-stone-400'> {comments.length}</span>
                         </h2>
 
                         <div className='flex flex-col gap-4' >
+                            <hr />
                             {
                                 comments.map(comment =>
                                     <Comment key={comment.id} {...comment} />

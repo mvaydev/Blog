@@ -6,10 +6,13 @@ import { useNavigate, Link } from 'react-router-dom'
 import { getFullCreatedAt } from '../utils/helpers'
 import { Context } from '../main'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import Block from '../layout/Block'
 import Dropdown from '../components/Dropdown'
 import LikeButton from '../components/Inputs/LikeButton'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CommentsList from '../components/Comments/CommentsList'
+import WriteComment from '../components/Comments/WriteComment'
 
 export default () => {
     const [post, setPost] = useState(null)
@@ -17,6 +20,11 @@ export default () => {
     const { userStore } = useContext(Context)
     const { id } = useParams()
     const navigate = useNavigate()
+
+    if(location.hash) {
+        let elem = document.getElementById(location.hash.slice(1))
+        if (elem) elem.scrollIntoView({behavior: "smooth"})
+    }
 
     const handleDeletePost = () => {
         if(confirm('Вы уверены?'))
@@ -90,7 +98,10 @@ export default () => {
                         </div>
                     </div>
                 </Block>
-
+                {
+                    userStore.isAuth && <WriteComment postId={post.id} />
+                }
+                <CommentsList postId={post.id} />
             </div>
         )
     )
