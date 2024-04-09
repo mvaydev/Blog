@@ -27,8 +27,8 @@ function renderMdToHtml(markdown) {
 }
 
 async function mapPost(post, userId = null) {
-    const comments = await commentModel.count(postModel, {
-        where: { id: post.id }
+    const comments = await commentModel.count({
+        where: { postId: post.id }
     })
 
     const likes = await likeModel.count({
