@@ -3,7 +3,7 @@ import { getFullCreatedAt } from '../utils/helpers'
 import Block from '../layout/Block'
 import LikeButton from './LikeButton'
 import Button from './Button'
-import Comment from '../assets/img/comment.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default (props) => {
     return (
@@ -28,10 +28,10 @@ export default (props) => {
 
                 <Link
                     to={'/post/' + props.id + '/#comments'}
-                    className='rounded-full bg-stone-200 py-1.5 px-3 w-fit flex gap-1.5 hover:bg-stone-300'
+                    className='rounded-full bg-stone-200 py-1.5 px-3 w-fit flex gap-1.5 hover:bg-stone-300 items-center'
                 >
                     <span className='text-stone-500'>{props.comments}</span>
-                    <img src={Comment} />
+                    <FontAwesomeIcon icon='fa-regular fa-message' className='text-stone-500 text-xl' />
                 </Link>
             </div>
         </Block>

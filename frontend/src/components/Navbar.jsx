@@ -1,20 +1,11 @@
-import Logo from '../assets/img/logo.svg'
-import Settings from '../assets/img/settings.svg'
-import Write from '../assets/img/write.svg'
-import Profile from '../assets/img/profile.svg'
 import { Link } from 'react-router-dom'
 import { Context } from '../main'
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import Button from './Button'
 
-const IconLink = ({ link, imgSrc }) => {
-    return (
-        <Link to={link} className='hover:-translate-y-1'>
-            <img src={imgSrc}/>
-        </Link>
-    )
-}
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Logo from '../assets/img/logo.svg'
 
 export default observer(() => {
     const {userStore} = useContext(Context)
@@ -28,10 +19,18 @@ export default observer(() => {
 
                 {
                     userStore.isAuth ? (
-                        <div className='flex gap-6 items-center'>
-                            <IconLink link='/write' imgSrc={Write} />
-                            <IconLink link='/settings' imgSrc={Settings} />
-                            <IconLink link='/profile' imgSrc={Profile} />
+                        <div className='flex gap-8 items-center p-1'>
+                            <Link to='/write' replace>
+                                <FontAwesomeIcon icon='fa-solid fa-pen' className='text-stone-700 text-xl hover:text-rose-500' />
+                            </Link>
+
+                            <Link to='/settings' replace>
+                            <   FontAwesomeIcon icon='fa-solid fa-gear' className='text-stone-700 text-xl hover:text-rose-500' />
+                            </Link>
+
+                            <Link to='/profile' replace>
+                                <FontAwesomeIcon icon='fa-solid fa-circle-user' className='text-stone-700 text-3xl hover:text-rose-500' />
+                            </Link>
                         </div>
                     ) : (
                         <div className='flex gap-3 items-center'>

@@ -9,10 +9,7 @@ import { Context } from '../main'
 import Block from '../layout/Block'
 import Dropdown from '../components/Dropdown'
 import LikeButton from '../components/LikeButton'
-
-import Comment from '../assets/img/comment.svg'
-import Bin from '../assets/img/bin.svg'
-import Edit from '../assets/img/edit.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default () => {
     const [post, setPost] = useState(null)
@@ -61,19 +58,19 @@ export default () => {
                                 <Dropdown>
                                     <Link
                                         to={'/edit/' + post.id}
-                                        className='text-stone-500 hover:text-stone-600 flex gap-1.5 items-center'
+                                        className='text-stone-500 hover:text-stone-700 flex gap-1.5 items-center'
                                     >
-                                        <img src={Edit} />
+                                        <FontAwesomeIcon icon='fa-regular fa-pen-to-square' />
                                         Изменить
                                     </Link>
 
                                     <hr />
 
                                     <button
-                                        className='text-rose-500 hover:text-rose-600 flex gap-1.5 items-center'
+                                        className='text-rose-500 hover:text-rose-700 flex gap-1.5 items-center'
                                         onClick={handleDeletePost}
                                     >
-                                        <img src={Bin} />
+                                        <FontAwesomeIcon icon='fa-regular fa-trash-can' />
                                         Удалить
                                     </button>
                                 </Dropdown>
@@ -87,9 +84,9 @@ export default () => {
                     <div className='flex gap-2'>
                         <LikeButton likes={post.likes} isLiked={post.isLiked} postId={post.id} />
 
-                        <div className='rounded-full bg-stone-200 py-1.5 px-3 w-fit flex gap-1.5'>
+                        <div className='rounded-full bg-stone-200 py-1.5 px-3 w-fit flex gap-1.5 items-center'>
                             <span className='text-stone-500'>{post.comments}</span>
-                            <img src={Comment} />
+                            <FontAwesomeIcon icon='fa-regular fa-message' className='text-stone-500 text-xl' />
                         </div>
                     </div>
                 </Block>
